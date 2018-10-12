@@ -81,7 +81,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NoteApp\NoteApp.csproj">
-      <Project>{020939b2-ef12-4a5c-b78f-08d0ea960eb8}</Project>
+      <Project>{55945756-1f4e-4611-bcf0-457bd590cd3b}</Project>
       <Name>NoteApp</Name>
     </ProjectReference>
   </ItemGroup>
