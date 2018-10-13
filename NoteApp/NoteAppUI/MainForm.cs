@@ -13,9 +13,9 @@ namespace NoteAppUI
 {
     public partial class MainForm : Form
     {
-        Project myProject = new Project();
-        int counter = 0;
+        Project myProject = new Project("myfile");
         NoteCategory category = NoteCategory.Other;
+        int counter = 0;
 
         public MainForm()
         {
@@ -55,17 +55,23 @@ namespace NoteAppUI
             listOfNotesComboBox.Text = "";
             listBoxOfNoteCategory.SelectedIndex = -1;
 
+            ProjectManager.SaveToFile(myProject, "myfile");
+
             counter += 1;
 
         }
 
         private void listOfNotesComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            int index = (int) listOfNotesComboBox.SelectedIndex;
-            contentTextBox.Text = myProject.ListOfNotes[index].Content;
-            nameTextLabel.Text = myProject.ListOfNotes[index].Name;
-            dateOfCreationTextBox.Text = myProject.ListOfNotes[index].DateOfCreation.ToString();
-            dateOfLastEditTextBox.Text = myProject.ListOfNotes[index].DateOfLastEdit.ToString();
+            if (listOfNotesComboBox.SelectedIndex != 1)
+            {
+                int index = (int)listOfNotesComboBox.SelectedIndex;
+                contentTextBox.Text = myProject.ListOfNotes[index].Content;
+                nameTextLabel.Text = myProject.ListOfNotes[index].Name;
+                dateOfCreationTextBox.Text = myProject.ListOfNotes[index].DateOfCreation.ToString();
+                dateOfLastEditTextBox.Text = myProject.ListOfNotes[index].DateOfLastEdit.ToString();
+            }
+            
         }
 
         private void deleteButton_Click(object sender, EventArgs e)
@@ -124,6 +130,14 @@ namespace NoteAppUI
                     category = NoteCategory.Other;
                 }
             }
+        }
+
+        private void saveToFileButton_Click(object sender, EventArgs e)
+        {
+            ProjectManager.SaveToFile(myProject, "myfile");
+
+            ProjectManager.LoadFromFile("myfile");
+
         }
     }
 }

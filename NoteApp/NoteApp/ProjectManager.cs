@@ -1,34 +1,43 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace NoteApp
 {
     /// <summary>
     /// Класс, реализующий метод сохранения и загрузки проекта в файл
     /// </summary>
-    class ProjectManager
+    public static class ProjectManager
     {
         /// <summary>
         /// Хранит путь до файла сохранения
         /// </summary>
-        private readonly string _pathToFile = System.Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "My Documents\\NoteApp.notes";
+        private static readonly string _pathToFile = System.Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Documents\\NoteApp.notes";
 
         /// <summary>
         /// Сохраняет экземпляр проекта в файл
         /// </summary>
         /// <param name="data"></param>
         /// <param name="filename"></param>
-        //public void SaveToFile(Project data, string filename)
-        //{
+        public static void SaveToFile(Project data, string filename)
+        {         
+            File.WriteAllText(_pathToFile, JsonConvert.SerializeObject(data));
+        }
 
-        //}
+        /// <summary>
+        /// Загружает объект проекта из файла
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns></returns>
+        public static Project LoadFromFile(string filename)
+        {
+            Project project = JsonConvert.DeserializeObject<Project>(File.ReadAllText(_pathToFile));
 
-        //public static Project LoadFromFile(string filename)
-        //{
-
-        //}
+            return project;
+        }
     }
 }

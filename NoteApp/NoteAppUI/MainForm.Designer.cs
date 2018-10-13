@@ -43,15 +43,16 @@
             this.dateOfLastEditTextBox = new System.Windows.Forms.TextBox();
             this.categoryLabel = new System.Windows.Forms.Label();
             this.footerPanel = new System.Windows.Forms.Panel();
+            this.listOfNotesLabel = new System.Windows.Forms.Label();
+            this.listOfNotesComboBox = new System.Windows.Forms.ComboBox();
             this.listOfNotesTextBox = new System.Windows.Forms.TextBox();
             this.currentProjectLabel = new System.Windows.Forms.Label();
             this.greetingsLabel = new System.Windows.Forms.Label();
             this.headerPanel = new System.Windows.Forms.Panel();
             this.noteTitleLabel = new System.Windows.Forms.Label();
-            this.listOfNotesComboBox = new System.Windows.Forms.ComboBox();
             this.deleteButton = new System.Windows.Forms.Button();
             this.listBoxOfNoteCategory = new System.Windows.Forms.ListBox();
-            this.listOfNotesLabel = new System.Windows.Forms.Label();
+            this.saveToFileButton = new System.Windows.Forms.Button();
             this.panelBlock.SuspendLayout();
             this.footerPanel.SuspendLayout();
             this.headerPanel.SuspendLayout();
@@ -199,6 +200,25 @@
             this.footerPanel.Size = new System.Drawing.Size(800, 146);
             this.footerPanel.TabIndex = 12;
             // 
+            // listOfNotesLabel
+            // 
+            this.listOfNotesLabel.AutoSize = true;
+            this.listOfNotesLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.listOfNotesLabel.Location = new System.Drawing.Point(468, 14);
+            this.listOfNotesLabel.Name = "listOfNotesLabel";
+            this.listOfNotesLabel.Size = new System.Drawing.Size(113, 24);
+            this.listOfNotesLabel.TabIndex = 15;
+            this.listOfNotesLabel.Text = "List of notes:";
+            // 
+            // listOfNotesComboBox
+            // 
+            this.listOfNotesComboBox.FormattingEnabled = true;
+            this.listOfNotesComboBox.Location = new System.Drawing.Point(587, 17);
+            this.listOfNotesComboBox.Name = "listOfNotesComboBox";
+            this.listOfNotesComboBox.Size = new System.Drawing.Size(162, 21);
+            this.listOfNotesComboBox.TabIndex = 14;
+            this.listOfNotesComboBox.SelectedIndexChanged += new System.EventHandler(this.listOfNotesComboBox_SelectedIndexChanged);
+            // 
             // listOfNotesTextBox
             // 
             this.listOfNotesTextBox.Location = new System.Drawing.Point(16, 39);
@@ -248,15 +268,6 @@
             this.noteTitleLabel.TabIndex = 15;
             this.noteTitleLabel.Text = "Note title:";
             // 
-            // listOfNotesComboBox
-            // 
-            this.listOfNotesComboBox.FormattingEnabled = true;
-            this.listOfNotesComboBox.Location = new System.Drawing.Point(587, 17);
-            this.listOfNotesComboBox.Name = "listOfNotesComboBox";
-            this.listOfNotesComboBox.Size = new System.Drawing.Size(162, 21);
-            this.listOfNotesComboBox.TabIndex = 14;
-            this.listOfNotesComboBox.SelectedIndexChanged += new System.EventHandler(this.listOfNotesComboBox_SelectedIndexChanged);
-            // 
             // deleteButton
             // 
             this.deleteButton.Location = new System.Drawing.Point(614, 412);
@@ -284,21 +295,22 @@
             this.listBoxOfNoteCategory.TabIndex = 17;
             this.listBoxOfNoteCategory.SelectedIndexChanged += new System.EventHandler(this.listBoxOfNoteCategory_SelectedIndexChanged);
             // 
-            // listOfNotesLabel
+            // saveToFileButton
             // 
-            this.listOfNotesLabel.AutoSize = true;
-            this.listOfNotesLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.listOfNotesLabel.Location = new System.Drawing.Point(468, 14);
-            this.listOfNotesLabel.Name = "listOfNotesLabel";
-            this.listOfNotesLabel.Size = new System.Drawing.Size(113, 24);
-            this.listOfNotesLabel.TabIndex = 15;
-            this.listOfNotesLabel.Text = "List of notes:";
+            this.saveToFileButton.Location = new System.Drawing.Point(479, 412);
+            this.saveToFileButton.Name = "saveToFileButton";
+            this.saveToFileButton.Size = new System.Drawing.Size(102, 23);
+            this.saveToFileButton.TabIndex = 18;
+            this.saveToFileButton.Text = "Save Project";
+            this.saveToFileButton.UseVisualStyleBackColor = true;
+            this.saveToFileButton.Click += new System.EventHandler(this.saveToFileButton_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 590);
+            this.Controls.Add(this.saveToFileButton);
             this.Controls.Add(this.listBoxOfNoteCategory);
             this.Controls.Add(this.deleteButton);
             this.Controls.Add(this.noteTitleLabel);
@@ -355,6 +367,7 @@
         private System.Windows.Forms.Button deleteButton;
         private System.Windows.Forms.ListBox listBoxOfNoteCategory;
         private System.Windows.Forms.Label listOfNotesLabel;
+        private System.Windows.Forms.Button saveToFileButton;
     }
 }
 
