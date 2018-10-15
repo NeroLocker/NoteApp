@@ -16,15 +16,21 @@ namespace NoteApp
         /// <summary>
         /// Хранит путь до файла сохранения
         /// </summary>
-        private static readonly string _pathToFile = System.Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Documents\\NoteApp.notes";
+        private static readonly string _pathToFile = System.Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\NoteApp\\NoteApp.notes";
 
         /// <summary>
-        /// Сохраняет экземпляр проекта в файл
+        /// Сохраняет объект проекта в файл
         /// </summary>
         /// <param name="data"></param>
         /// <param name="filename"></param>
         public static void SaveToFile(Project data, string filename)
-        {         
+        {
+            // Если папки NoteApp не существует, создаём её
+            if (Directory.Exists(System.Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\NoteApp") == false)
+            {
+                Directory.CreateDirectory(System.Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\NoteApp");
+            }
+            
             File.WriteAllText(_pathToFile, JsonConvert.SerializeObject(data));
         }
 

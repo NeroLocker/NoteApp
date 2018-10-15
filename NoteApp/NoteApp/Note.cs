@@ -8,20 +8,6 @@ using DateTime = System.DateTime;
 namespace NoteApp
 {
     /// <summary>
-    /// тип данных "Категория заметки"
-    /// </summary>
-    public enum NoteCategory
-    {
-        Work,
-        Home,
-        HealthAndSport,
-        People,
-        Documents,
-        Finance,
-        Other
-    }
-
-    /// <summary>
     /// Класс, представляющий записку
     /// </summary>
     public class Note : ICloneable
@@ -59,13 +45,13 @@ namespace NoteApp
         /// <param name="category"></param>
         public Note(string name, string content, NoteCategory category)
         {
-            this.Name = name;
-            this.Content = content;
-            this.Category = category;
-            this.SetDateOfCreation();
-            this.SetDateOfLastEdit();
+            Name = name;
+            Content = content;
+            Category = category;
+            DateOfCreation = DateTime.Now;
+            DateOfLastEdit = DateTime.Now;
         }
-
+        
         public string Name
         {
             get { return _name; }
@@ -97,7 +83,7 @@ namespace NoteApp
                 }
                 else if (value.Length != 0 && value.Length > 500)
                 {
-                    throw new ArgumentException("Length of name content more than 500 symbols");
+                    throw new ArgumentException("Length of content contains more than 500 symbols");
                 }
                 else
                 {
@@ -106,36 +92,22 @@ namespace NoteApp
             }
         }
 
-        public DateTime DateOfCreation
-        {
-            get { return _dateOfCreation; }
-        }
-
-        public DateTime DateOfLastEdit
-        {
-            get { return _dateOfLastEdit; }
-        }
-
         public NoteCategory Category
         {
             get { return _category; }
             set { _category = value; }
         }
 
-        /// <summary>
-        /// Устанавливает дату и время создания заметки для экземпляра
-        /// </summary>
-        private void SetDateOfCreation()
+        public DateTime DateOfCreation
         {
-            this._dateOfCreation = DateTime.Now;
+            get { return _dateOfCreation; }
+            set { _dateOfCreation = value; }
         }
 
-        /// <summary>
-        /// Устанавливает дату и время последнего изменения заметки для экземпляра
-        /// </summary>
-        private void SetDateOfLastEdit()
+        public DateTime DateOfLastEdit
         {
-            this._dateOfLastEdit = DateTime.Now;
+            get { return _dateOfLastEdit; }
+            set { _dateOfLastEdit = value; }
         }
 
         /// <summary>
@@ -146,10 +118,12 @@ namespace NoteApp
         /// <param name="category"></param>
         public void Edit(string name, string content, NoteCategory category)
         {
-            this.Name = name;
-            this.Content = content;
-            this.Category = category;
-            this.SetDateOfLastEdit();
+            // TODO добавить входной параметр в виде объекта записки, которую хотим отредактировать
+            // Считаю, что реализацию метода необходимо доработать
+            Name = name;
+            Content = content;
+            Category = category;
+            DateOfLastEdit = DateTime.Now;
         }
 
         /// <summary>
