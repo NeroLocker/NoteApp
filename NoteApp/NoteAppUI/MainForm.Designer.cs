@@ -36,8 +36,6 @@
             this.ShowCategoryLabel = new System.Windows.Forms.Label();
             this.CategoryComboBox = new System.Windows.Forms.ComboBox();
             this.NotesListBox = new System.Windows.Forms.ListBox();
-            this.WorkWithNotesTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.WorkWithNotesFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.NewNoteButton = new System.Windows.Forms.Button();
             this.EditNoteButton = new System.Windows.Forms.Button();
             this.RemoveNoteButton = new System.Windows.Forms.Button();
@@ -69,16 +67,16 @@
             this.removeNoteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.WorkWithNotesFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.OuterTableLayoutPanel.SuspendLayout();
             this.MainTableLayoutPanel.SuspendLayout();
             this.LeftInnerTableLayoutPanel.SuspendLayout();
             this.LeftInnerCategoryFlowLayoutPanel.SuspendLayout();
-            this.WorkWithNotesTableLayoutPanel.SuspendLayout();
-            this.WorkWithNotesFlowLayoutPanel.SuspendLayout();
             this.RightInnerTableLayoutPanel.SuspendLayout();
             this.RightInnerCategoryFlowLayoutPanel.SuspendLayout();
             this.DatesFlowLayoutPanel.SuspendLayout();
             this.MainMenu.SuspendLayout();
+            this.WorkWithNotesFlowLayoutPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // OuterTableLayoutPanel
@@ -117,14 +115,14 @@
             this.LeftInnerTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.LeftInnerTableLayoutPanel.Controls.Add(this.LeftInnerCategoryFlowLayoutPanel, 0, 0);
             this.LeftInnerTableLayoutPanel.Controls.Add(this.NotesListBox, 0, 1);
-            this.LeftInnerTableLayoutPanel.Controls.Add(this.WorkWithNotesTableLayoutPanel, 0, 2);
+            this.LeftInnerTableLayoutPanel.Controls.Add(this.WorkWithNotesFlowLayoutPanel, 0, 2);
             this.LeftInnerTableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.LeftInnerTableLayoutPanel.Location = new System.Drawing.Point(3, 3);
             this.LeftInnerTableLayoutPanel.Name = "LeftInnerTableLayoutPanel";
             this.LeftInnerTableLayoutPanel.RowCount = 3;
             this.LeftInnerTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.LeftInnerTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 80F));
-            this.LeftInnerTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.LeftInnerTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.LeftInnerTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.LeftInnerTableLayoutPanel.Size = new System.Drawing.Size(394, 464);
             this.LeftInnerTableLayoutPanel.TabIndex = 0;
             // 
@@ -163,35 +161,13 @@
             this.NotesListBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.NotesListBox.FormattingEnabled = true;
             this.NotesListBox.ItemHeight = 15;
-            this.NotesListBox.Location = new System.Drawing.Point(3, 38);
+            this.NotesListBox.Location = new System.Drawing.Point(5, 40);
+            this.NotesListBox.Margin = new System.Windows.Forms.Padding(5);
             this.NotesListBox.Name = "NotesListBox";
-            this.NotesListBox.Size = new System.Drawing.Size(388, 337);
+            this.NotesListBox.Size = new System.Drawing.Size(384, 384);
             this.NotesListBox.TabIndex = 2;
-            // 
-            // WorkWithNotesTableLayoutPanel
-            // 
-            this.WorkWithNotesTableLayoutPanel.ColumnCount = 1;
-            this.WorkWithNotesTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.WorkWithNotesTableLayoutPanel.Controls.Add(this.WorkWithNotesFlowLayoutPanel, 0, 1);
-            this.WorkWithNotesTableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.WorkWithNotesTableLayoutPanel.Location = new System.Drawing.Point(3, 381);
-            this.WorkWithNotesTableLayoutPanel.Name = "WorkWithNotesTableLayoutPanel";
-            this.WorkWithNotesTableLayoutPanel.RowCount = 2;
-            this.WorkWithNotesTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.WorkWithNotesTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.WorkWithNotesTableLayoutPanel.Size = new System.Drawing.Size(388, 80);
-            this.WorkWithNotesTableLayoutPanel.TabIndex = 3;
-            // 
-            // WorkWithNotesFlowLayoutPanel
-            // 
-            this.WorkWithNotesFlowLayoutPanel.Controls.Add(this.NewNoteButton);
-            this.WorkWithNotesFlowLayoutPanel.Controls.Add(this.EditNoteButton);
-            this.WorkWithNotesFlowLayoutPanel.Controls.Add(this.RemoveNoteButton);
-            this.WorkWithNotesFlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.WorkWithNotesFlowLayoutPanel.Location = new System.Drawing.Point(3, 48);
-            this.WorkWithNotesFlowLayoutPanel.Name = "WorkWithNotesFlowLayoutPanel";
-            this.WorkWithNotesFlowLayoutPanel.Size = new System.Drawing.Size(382, 29);
-            this.WorkWithNotesFlowLayoutPanel.TabIndex = 0;
+            this.NotesListBox.SelectedIndexChanged += new System.EventHandler(this.NotesListBox_SelectedIndexChanged);
+            this.NotesListBox.Enter += new System.EventHandler(this.NotesListBox_Enter);
             // 
             // NewNoteButton
             // 
@@ -203,6 +179,7 @@
             this.NewNoteButton.Size = new System.Drawing.Size(25, 25);
             this.NewNoteButton.TabIndex = 0;
             this.NewNoteButton.UseVisualStyleBackColor = true;
+            this.NewNoteButton.Click += new System.EventHandler(this.NewNoteButton_Click);
             // 
             // EditNoteButton
             // 
@@ -214,6 +191,7 @@
             this.EditNoteButton.Size = new System.Drawing.Size(25, 25);
             this.EditNoteButton.TabIndex = 1;
             this.EditNoteButton.UseVisualStyleBackColor = true;
+            this.EditNoteButton.Click += new System.EventHandler(this.EditNoteButton_Click);
             // 
             // RemoveNoteButton
             // 
@@ -225,6 +203,7 @@
             this.RemoveNoteButton.Size = new System.Drawing.Size(25, 25);
             this.RemoveNoteButton.TabIndex = 2;
             this.RemoveNoteButton.UseVisualStyleBackColor = true;
+            this.RemoveNoteButton.Click += new System.EventHandler(this.RemoveNoteButton_Click);
             // 
             // RightInnerTableLayoutPanel
             // 
@@ -316,7 +295,7 @@
             this.DateOfCreationTextBox.Location = new System.Drawing.Point(73, 3);
             this.DateOfCreationTextBox.Name = "DateOfCreationTextBox";
             this.DateOfCreationTextBox.ReadOnly = true;
-            this.DateOfCreationTextBox.Size = new System.Drawing.Size(100, 21);
+            this.DateOfCreationTextBox.Size = new System.Drawing.Size(120, 21);
             this.DateOfCreationTextBox.TabIndex = 4;
             // 
             // ModifiedLabel
@@ -324,7 +303,7 @@
             this.ModifiedLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.ModifiedLabel.AutoSize = true;
             this.ModifiedLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.ModifiedLabel.Location = new System.Drawing.Point(179, 4);
+            this.ModifiedLabel.Location = new System.Drawing.Point(199, 4);
             this.ModifiedLabel.Name = "ModifiedLabel";
             this.ModifiedLabel.Size = new System.Drawing.Size(68, 18);
             this.ModifiedLabel.TabIndex = 5;
@@ -332,20 +311,22 @@
             // 
             // DateOfLastEditTextBox
             // 
-            this.DateOfLastEditTextBox.Location = new System.Drawing.Point(253, 3);
+            this.DateOfLastEditTextBox.Location = new System.Drawing.Point(273, 3);
             this.DateOfLastEditTextBox.Name = "DateOfLastEditTextBox";
             this.DateOfLastEditTextBox.ReadOnly = true;
-            this.DateOfLastEditTextBox.Size = new System.Drawing.Size(100, 21);
+            this.DateOfLastEditTextBox.Size = new System.Drawing.Size(120, 21);
             this.DateOfLastEditTextBox.TabIndex = 6;
             // 
             // ContentTextBox
             // 
             this.ContentTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ContentTextBox.Location = new System.Drawing.Point(3, 108);
+            this.ContentTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ContentTextBox.Location = new System.Drawing.Point(5, 110);
+            this.ContentTextBox.Margin = new System.Windows.Forms.Padding(5);
             this.ContentTextBox.Multiline = true;
             this.ContentTextBox.Name = "ContentTextBox";
             this.ContentTextBox.ReadOnly = true;
-            this.ContentTextBox.Size = new System.Drawing.Size(526, 353);
+            this.ContentTextBox.Size = new System.Drawing.Size(522, 349);
             this.ContentTextBox.TabIndex = 5;
             // 
             // MainMenu
@@ -374,6 +355,7 @@
             this.MyExitToolStripMenuItem.Name = "MyExitToolStripMenuItem";
             this.MyExitToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
             this.MyExitToolStripMenuItem.Text = "Exit";
+            this.MyExitToolStripMenuItem.Click += new System.EventHandler(this.MyExitToolStripMenuItem_Click);
             // 
             // MyEditToolStripMenuItem
             // 
@@ -388,21 +370,23 @@
             // MyAddNoteToolStripMenuItem
             // 
             this.MyAddNoteToolStripMenuItem.Name = "MyAddNoteToolStripMenuItem";
-            this.MyAddNoteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.MyAddNoteToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.MyAddNoteToolStripMenuItem.Text = "Add Note";
             this.MyAddNoteToolStripMenuItem.Click += new System.EventHandler(this.MyAddNoteToolStripMenuItem_Click);
             // 
             // MyEditNoteToolStripMenuItem
             // 
             this.MyEditNoteToolStripMenuItem.Name = "MyEditNoteToolStripMenuItem";
-            this.MyEditNoteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.MyEditNoteToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.MyEditNoteToolStripMenuItem.Text = "Edit Note";
+            this.MyEditNoteToolStripMenuItem.Click += new System.EventHandler(this.MyEditNoteToolStripMenuItem_Click);
             // 
             // MyRemoveNoteToolStripMenuItem
             // 
             this.MyRemoveNoteToolStripMenuItem.Name = "MyRemoveNoteToolStripMenuItem";
-            this.MyRemoveNoteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.MyRemoveNoteToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.MyRemoveNoteToolStripMenuItem.Text = "Remove Note";
+            this.MyRemoveNoteToolStripMenuItem.Click += new System.EventHandler(this.MyRemoveNoteToolStripMenuItem_Click);
             // 
             // MyHelpToolStripMenuItem
             // 
@@ -416,7 +400,7 @@
             // 
             this.MyAboutToolStripMenuItem.Name = "MyAboutToolStripMenuItem";
             this.MyAboutToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F1;
-            this.MyAboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.MyAboutToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
             this.MyAboutToolStripMenuItem.Text = "About";
             this.MyAboutToolStripMenuItem.Click += new System.EventHandler(this.MyAboutToolStripMenuItem_Click);
             // 
@@ -476,6 +460,17 @@
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.aboutToolStripMenuItem.Text = "About";
             // 
+            // WorkWithNotesFlowLayoutPanel
+            // 
+            this.WorkWithNotesFlowLayoutPanel.Controls.Add(this.NewNoteButton);
+            this.WorkWithNotesFlowLayoutPanel.Controls.Add(this.EditNoteButton);
+            this.WorkWithNotesFlowLayoutPanel.Controls.Add(this.RemoveNoteButton);
+            this.WorkWithNotesFlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.WorkWithNotesFlowLayoutPanel.Location = new System.Drawing.Point(3, 432);
+            this.WorkWithNotesFlowLayoutPanel.Name = "WorkWithNotesFlowLayoutPanel";
+            this.WorkWithNotesFlowLayoutPanel.Size = new System.Drawing.Size(388, 29);
+            this.WorkWithNotesFlowLayoutPanel.TabIndex = 3;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -491,14 +486,13 @@
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "NoteApp";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.OuterTableLayoutPanel.ResumeLayout(false);
             this.OuterTableLayoutPanel.PerformLayout();
             this.MainTableLayoutPanel.ResumeLayout(false);
             this.LeftInnerTableLayoutPanel.ResumeLayout(false);
             this.LeftInnerCategoryFlowLayoutPanel.ResumeLayout(false);
             this.LeftInnerCategoryFlowLayoutPanel.PerformLayout();
-            this.WorkWithNotesTableLayoutPanel.ResumeLayout(false);
-            this.WorkWithNotesFlowLayoutPanel.ResumeLayout(false);
             this.RightInnerTableLayoutPanel.ResumeLayout(false);
             this.RightInnerTableLayoutPanel.PerformLayout();
             this.RightInnerCategoryFlowLayoutPanel.ResumeLayout(false);
@@ -507,6 +501,7 @@
             this.DatesFlowLayoutPanel.PerformLayout();
             this.MainMenu.ResumeLayout(false);
             this.MainMenu.PerformLayout();
+            this.WorkWithNotesFlowLayoutPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -530,8 +525,6 @@
         private System.Windows.Forms.ComboBox CategoryComboBox;
         private System.Windows.Forms.FlowLayoutPanel LeftInnerCategoryFlowLayoutPanel;
         private System.Windows.Forms.ListBox NotesListBox;
-        private System.Windows.Forms.TableLayoutPanel WorkWithNotesTableLayoutPanel;
-        private System.Windows.Forms.FlowLayoutPanel WorkWithNotesFlowLayoutPanel;
         private System.Windows.Forms.Button NewNoteButton;
         private System.Windows.Forms.Button EditNoteButton;
         private System.Windows.Forms.Button RemoveNoteButton;
@@ -553,6 +546,7 @@
         private System.Windows.Forms.Label ModifiedLabel;
         private System.Windows.Forms.TextBox DateOfLastEditTextBox;
         private System.Windows.Forms.TextBox ContentTextBox;
+        private System.Windows.Forms.FlowLayoutPanel WorkWithNotesFlowLayoutPanel;
     }
 }
 

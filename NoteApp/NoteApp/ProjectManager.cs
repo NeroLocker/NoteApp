@@ -25,12 +25,6 @@ namespace NoteApp
         /// <param name="filename"></param>
         public static void SaveToFile(Project data, string filename)
         {
-            // Если папки NoteApp не существует, создаём её
-            if (Directory.Exists(System.Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\NoteApp") == false)
-            {
-                Directory.CreateDirectory(System.Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\NoteApp");
-            }
-            
             File.WriteAllText(_pathToFile, JsonConvert.SerializeObject(data));
         }
 
@@ -41,8 +35,26 @@ namespace NoteApp
         /// <returns></returns>
         public static Project LoadFromFile(string filename)
         {
-            Project project = JsonConvert.DeserializeObject<Project>(File.ReadAllText(_pathToFile));
+            Project project;
+            string data;
 
+            try
+            {
+                data = File.ReadAllText(_pathToFile);
+            }
+
+            catch (DirectoryNotFoundException e)
+            {
+                throw e;
+            }
+
+            catch (FileNotFoundException e)
+            {
+                throw e;
+            }
+            
+            project = JsonConvert.DeserializeObject<Project>(data);
+   
             return project;
         }
     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,157 +14,339 @@ namespace NoteAppUI
 {
     public partial class MainForm : Form
     {
-        Project myProject = new Project("myfile");
-        NoteCategory category = NoteCategory.Other;
-        int noteNumber = 0;
+        /// <summary>
+        /// Хранит экземпляр текущего проекта
+        /// </summary>
+        private Project _currentProject;
+
+        /// <summary>
+        /// Хранит номер текущей заметки
+        /// </summary>
+        private int _noteId;
+
+        public int NoteId
+        {
+            get { return _noteId; }
+            set { _noteId = value; }
+        }
+
+        public Project CurrentProject
+        {
+            get { return _currentProject; }
+            set { _currentProject = value; }
+        }
 
         public MainForm()
         {
             InitializeComponent();
+
+            // Попытка загрузить существующий проект, если его нет - создаём новый
+            try
+            {
+                CurrentProject = ProjectManager.LoadFromFile("Project");
+
+            }
+            // Создаём директорию хранения файла проекта, если её нет
+            catch (DirectoryNotFoundException)
+            {
+                if (Directory.Exists(System.Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\NoteApp") == false)
+                {
+                    Directory.CreateDirectory(System.Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\NoteApp");
+                    File.Create(System.Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\NoteApp\\NoteApp.notes");
+
+                    CurrentProject = new Project("Project");
+                }                
+            }
+            // Создаём пустой файл хранения проекта
+            catch (FileNotFoundException)
+            {
+                if (Directory.Exists(System.Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\NoteApp\\NoteApp.notes") == false)
+                {
+                    File.Create(System.Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\NoteApp\\NoteApp.notes");
+                }
+
+                CurrentProject = new Project("Project");
+            }
+
+            // Подгружаем данные в ListBox
+            NotesListBox.DataSource = CurrentProject.NotesCollection;
+            NotesListBox.DisplayMember = "Name";
         }
 
-        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Обновляет данные ListBox заметок
+        /// </summary>
+        private void UpdateNotesList()
         {
+            // Перезагружаем проект
+            CurrentProject = ProjectManager.LoadFromFile("Project");
 
+            // Обновляем данные коллекции
+            NotesListBox.DataSource = null;
+            NotesListBox.DataSource = CurrentProject.NotesCollection;
+            NotesListBox.DisplayMember = "Name";
         }
 
+        // Всё что относится к меню
+        # region Menu
+
+        /// <summary>
+        /// Событие при нажатии пункта меню AddNote
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MyAddNoteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AddEditNoteForm addEditNoteForm = new AddEditNoteForm(this);
-            addEditNoteForm.ShowDialog();
+            // Можно добавить только до 200 заметок
+            if (CurrentProject.NotesCollection.Count < 200)
+            {
+                AddEditNoteForm addEditNoteForm = new AddEditNoteForm();
+
+                if (addEditNoteForm.ShowDialog() == DialogResult.OK)
+                {
+                    CurrentProject.NotesCollection.Add(addEditNoteForm.CurrentNote);
+                    ProjectManager.SaveToFile(CurrentProject, "Project");
+                    UpdateNotesList();
+                }
+            }
+            else
+            {
+                // Подсвечиваем ListBox заметок
+                NotesListBox.BackColor = Color.MistyRose;
+            }            
         }
 
+        /// <summary>
+        /// Событие при нажатии пункта меню EditNote
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MyEditNoteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Должна быть выбрана заметка
+            if (NotesListBox.SelectedIndex != -1)
+            {
+                AddEditNoteForm addEditNoteForm = new AddEditNoteForm(CurrentProject.NotesCollection[NoteId]);
+                if (addEditNoteForm.ShowDialog() == DialogResult.OK)
+                {
+                    CurrentProject.NotesCollection[NoteId] = addEditNoteForm.CurrentNote;
+                    ProjectManager.SaveToFile(CurrentProject, "Project");
+                    UpdateNotesList();
+                }
+            }
+            else
+            {
+                NotesListBox.BackColor = Color.MistyRose;                
+            }
+        }
+
+        /// <summary>
+        /// Собите при нажатии пункта меню About
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MyAboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AboutForm aboutForm = new AboutForm();
+
             aboutForm.ShowDialog();
         }
 
+        /// <summary>
+        /// Событие при нажатии пункта меню Exit
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MyExitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Для сохранения список заметок должен быть не пустым
+            if (CurrentProject.NotesCollection.Count != 0)
+            {
+                ProjectManager.SaveToFile(CurrentProject, "Project");
+                Application.Exit();
+            }
+            else
+            {
+                Application.Exit();
+            }
+        }
 
-        //private void saveButton_Click(object sender, EventArgs e)
-        //{
-        //    try
-        //    {
-        //        myProject.NotesCollection.Add(new Note(nameOfNoteTextBox.Text, noteContentTextBox.Text, category));
-        //    }
-        //    catch (ArgumentException ex)
-        //    {
-        //        greetingsLabel.Text = "Argument Exception";
-        //        return;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        greetingsLabel.Text = "Some Exception";
-        //        return;                                
-        //    }                      
+        /// <summary>
+        /// Событие при нажатии пункта меню RemoveNote
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MyRemoveNoteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Должна быть выбрана заметка
+            if (NotesListBox.SelectedIndex != -1)
+            {
+                DialogResult result = MessageBox.Show("Do you want to remove note?", "NoteApp", MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
+                {
+                    CurrentProject.NotesCollection.RemoveAt(NoteId);
+                    ProjectManager.SaveToFile(CurrentProject, "Project");
+                    UpdateNotesList();
 
-        //    nameTextLabel.Text = myProject.NotesCollection[noteNumber].Name;
-        //    contentTextBox.Text = myProject.NotesCollection[noteNumber].Content;
-        //    dateOfCreationTextBox.Text = myProject.NotesCollection[noteNumber].DateOfCreation.ToString();
-        //    dateOfLastEditTextBox.Text = myProject.NotesCollection[noteNumber].DateOfLastEdit.ToString();
-        //    categoryLabel.Text = myProject.NotesCollection[noteNumber].Category.ToString();
+                    this.DialogResult = DialogResult.Cancel;
+                }
 
-        //    listOfNotesTextBox.Text += myProject.NotesCollection[noteNumber].Name + "\r\n";
-        //    listOfNotesComboBox.Items.Add(myProject.NotesCollection[noteNumber].Name);
+                if (result == DialogResult.No)
+                {
+                    this.DialogResult = DialogResult.Cancel;
+                }
+            }
+            else
+            {
+                NotesListBox.BackColor = Color.MistyRose;
+            }
+        }
 
-        //    nameOfNoteTextBox.Text = "";
-        //    noteContentTextBox.Text = "";
-        //    listOfNotesComboBox.Text = "";
-        //    noteCategoryListBox.SelectedIndex = -1;
+        #endregion
 
-        //    ProjectManager.SaveToFile(myProject, "myfile");
+        // Всё что относится к кнопкам
+        # region Buttons
 
-        //    noteNumber += 1;
+        /// <summary>
+        /// Событие при нажатии кнопки NewNote
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void NewNoteButton_Click(object sender, EventArgs e)
+        {
+            AddEditNoteForm addEditNoteForm = new AddEditNoteForm();
 
-        //}
+            // Можно добавить только до 200 заметок
+            if (CurrentProject.NotesCollection.Count < 200)
+            {
+                if (addEditNoteForm.ShowDialog() == DialogResult.OK)
+                {
+                    CurrentProject.NotesCollection.Add(addEditNoteForm.CurrentNote);
+                    ProjectManager.SaveToFile(CurrentProject, "Project");
+                    UpdateNotesList();
+                }
+            }
+            else
+            {
+                // Подсвечиваем ListBox заметок
+                NotesListBox.BackColor = Color.MistyRose;                
+            }
+        }
 
-        //private void listOfNotesComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        //{
+        /// <summary>
+        /// Событие при нажатии кнопки EditNote
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void EditNoteButton_Click(object sender, EventArgs e)
+        {
+            // Должна быть выбрана заметка
+            if (NotesListBox.SelectedIndex != -1)
+            {
+                AddEditNoteForm addEditNoteForm = new AddEditNoteForm(CurrentProject.NotesCollection[NoteId]);
+                if (addEditNoteForm.ShowDialog() == DialogResult.OK)
+                {
+                    CurrentProject.NotesCollection[NoteId] = addEditNoteForm.CurrentNote;
+                    ProjectManager.SaveToFile(CurrentProject, "Project");
+                    UpdateNotesList();
+                }
+            }
+            else
+            {
+                NotesListBox.BackColor = Color.MistyRose;
+            }
+        }
 
-        //        int index = (int)listOfNotesComboBox.SelectedIndex;
-        //        contentTextBox.Text = myProject.NotesCollection[index].Content;
-        //        nameTextLabel.Text = myProject.NotesCollection[index].Name;
-        //        dateOfCreationTextBox.Text = myProject.NotesCollection[index].DateOfCreation.ToString();
-        //        dateOfLastEditTextBox.Text = myProject.NotesCollection[index].DateOfLastEdit.ToString();
-        //        categoryLabel.Text = myProject.NotesCollection[index].Category.ToString();
+        /// <summary>
+        /// Событие при нажатии кнопки RemoveNote
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void RemoveNoteButton_Click(object sender, EventArgs e)
+        {
+            // Должна быть выбрана заметка
+            if (NotesListBox.SelectedIndex != -1)
+            {
+                DialogResult result = MessageBox.Show("Do you want to remove note?", "NoteApp", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-        //}
+                if (result == DialogResult.Yes)
+                {
+                    // Удаляем заметку по id
+                    CurrentProject.NotesCollection.RemoveAt(NoteId);
+                    ProjectManager.SaveToFile(CurrentProject, "Project");
+                    UpdateNotesList();
 
-        //private void deleteButton_Click(object sender, EventArgs e)
-        //{
-        //    if (listOfNotesComboBox.SelectedIndex != -1)
-        //    {
-        //        int index = listOfNotesComboBox.SelectedIndex;
+                    this.DialogResult = DialogResult.Cancel;
+                }
 
-        //        myProject.NotesCollection.Remove(myProject.NotesCollection[index]);
+                if (result == DialogResult.No)
+                {
+                    // Просто закрываем диалог
+                    this.DialogResult = DialogResult.Cancel;
+                }
+            }
+            else
+            {
+                NotesListBox.BackColor = Color.MistyRose;
+            }            
+        }
 
-        //        listOfNotesComboBox.Items.RemoveAt(index);
-        //        listOfNotesComboBox.Text = "";
-        //        noteCategoryListBox.SelectedIndex = -1;
-        //        listOfNotesComboBox.SelectedIndex = -1;
+        #endregion
 
-        //        noteNumber -= 1;
-        //    }            
-        //}
+        /// <summary>
+        /// Событие изменения индекса выбранной заметки
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void NotesListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            NoteId = NotesListBox.SelectedIndex;
 
-        //private void listBoxOfNoteCategory_SelectedIndexChanged(object sender, EventArgs e)
-        //{
-        //    if (noteCategoryListBox.SelectedIndex != -1)
-        //    {
-        //        if (noteCategoryListBox.SelectedIndex == 0)
-        //        {
-        //            category = NoteCategory.Work;
-        //        }
+            // Возвращаем стандартный цвет
+            NotesListBox.BackColor = Color.White;
 
-        //        if (noteCategoryListBox.SelectedIndex == 1)
-        //        {
-        //            category = NoteCategory.Home;
-        //        }
+            if (NoteId != -1)
+            {
+                NoteNameLabel.Text = CurrentProject.NotesCollection[NoteId].Name;
+                CategoryLabel.Text = CurrentProject.NotesCollection[NoteId].Category.ToString();
+                DateOfCreationTextBox.Text = CurrentProject.NotesCollection[NoteId].DateOfCreation.ToString();
+                DateOfLastEditTextBox.Text = CurrentProject.NotesCollection[NoteId].DateOfLastEdit.ToString();
+                ContentTextBox.Text = CurrentProject.NotesCollection[NoteId].Content;
+            }
+        }
 
-        //        if (noteCategoryListBox.SelectedIndex == 2)
-        //        {
-        //            category = NoteCategory.HealthAndSport;
-        //        }
+        /// <summary>
+        /// Событие перед закрытием окна
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            DialogResult result = MessageBox.Show("Do you want to exit?", "NoteApp", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
+            {
+                // Для сохранения список заметок должен быть не пустым
+                if (CurrentProject.NotesCollection.Count != 0)
+                {
+                    ProjectManager.SaveToFile(CurrentProject, "Project");
+                }                      
+            }
 
-        //        if (noteCategoryListBox.SelectedIndex == 3)
-        //        {
-        //            category = NoteCategory.People;
-        //        }
+            if (result == DialogResult.No)
+            {
+                e.Cancel = true;
+            }
+        }
 
-        //        if (noteCategoryListBox.SelectedIndex == 4)
-        //        {
-        //            category = NoteCategory.Documents;
-        //        }
-
-        //        if (noteCategoryListBox.SelectedIndex == 5)
-        //        {
-        //            category = NoteCategory.Finance;
-        //        }
-
-        //        if (noteCategoryListBox.SelectedIndex == 6)
-        //        {
-        //            category = NoteCategory.Other;
-        //        }
-        //    }
-        //}
-
-        //private void saveToFileButton_Click(object sender, EventArgs e)
-        //{
-        //    ProjectManager.SaveToFile(myProject, "myfile");
-
-        //    ProjectManager.LoadFromFile("myfile");
-
-        //}
-
-        //private void editButton_Click(object sender, EventArgs e)
-        //{
-        //    int index = listOfNotesComboBox.SelectedIndex;
-
-        //}
-
-        //private void MainForm_Load(object sender, EventArgs e)
-        //{
-
-        //}
+        /// <summary>
+        /// Событие фокусировки на ListBox заметок
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void NotesListBox_Enter(object sender, EventArgs e)
+        {
+            NotesListBox.BackColor = Color.White;
+        }
     }
 }

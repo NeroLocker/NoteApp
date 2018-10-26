@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace NoteApp
 {
@@ -25,7 +26,7 @@ namespace NoteApp
 
         public Project(string filename)
         {
-            Filename = filename;
+            Filename = filename;            
         }
 
         public string Filename

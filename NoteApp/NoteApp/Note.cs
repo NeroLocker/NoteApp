@@ -8,7 +8,7 @@ using DateTime = System.DateTime;
 namespace NoteApp
 {
     /// <summary>
-    /// Класс, представляющий записку
+    /// Класс, представляющий заметку
     /// </summary>
     public class Note : ICloneable
     {
@@ -38,7 +38,7 @@ namespace NoteApp
         private DateTime _dateOfLastEdit;
 
         /// <summary>
-        /// Конструктор экземпляра, который устанавливает значения полей записки
+        /// Конструктор экземпляра, который устанавливает значения полей заметкии
         /// </summary>
         /// <param name="name"></param>
         /// <param name="content"></param>
@@ -118,7 +118,7 @@ namespace NoteApp
         /// <param name="category"></param>
         public void Edit(string name, string content, NoteCategory category)
         {
-            // TODO добавить входной параметр в виде объекта записки, которую хотим отредактировать
+            // TODO добавить входной параметр в виде объекта заметкии, которую хотим отредактировать
             // Считаю, что реализацию метода необходимо доработать
             Name = name;
             Content = content;

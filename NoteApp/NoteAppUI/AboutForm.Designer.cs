@@ -32,13 +32,13 @@
             this.HeaderPanel = new System.Windows.Forms.Panel();
             this.VersionLabel = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.GitHubLinkLabel = new System.Windows.Forms.LinkLabel();
+            this.EmailLinkLabel = new System.Windows.Forms.LinkLabel();
             this.GitHubLabel = new System.Windows.Forms.Label();
             this.EmailLabel = new System.Windows.Forms.Label();
             this.AuthorLabel = new System.Windows.Forms.Label();
             this.FooterPanel = new System.Windows.Forms.Panel();
             this.FooterLabel = new System.Windows.Forms.Label();
-            this.EmailLinkLabel = new System.Windows.Forms.LinkLabel();
-            this.GitHubLinkLabel = new System.Windows.Forms.LinkLabel();
             this.HeaderPanel.SuspendLayout();
             this.panel1.SuspendLayout();
             this.FooterPanel.SuspendLayout();
@@ -86,15 +86,35 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 100);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(509, 122);
+            this.panel1.Size = new System.Drawing.Size(509, 155);
             this.panel1.TabIndex = 3;
+            // 
+            // GitHubLinkLabel
+            // 
+            this.GitHubLinkLabel.AutoSize = true;
+            this.GitHubLinkLabel.Location = new System.Drawing.Point(77, 113);
+            this.GitHubLinkLabel.Name = "GitHubLinkLabel";
+            this.GitHubLinkLabel.Size = new System.Drawing.Size(156, 13);
+            this.GitHubLinkLabel.TabIndex = 7;
+            this.GitHubLinkLabel.TabStop = true;
+            this.GitHubLinkLabel.Text = "https://github.com/NeroLocker";
+            // 
+            // EmailLinkLabel
+            // 
+            this.EmailLinkLabel.AutoSize = true;
+            this.EmailLinkLabel.Location = new System.Drawing.Point(77, 83);
+            this.EmailLinkLabel.Name = "EmailLinkLabel";
+            this.EmailLinkLabel.Size = new System.Drawing.Size(122, 13);
+            this.EmailLinkLabel.TabIndex = 6;
+            this.EmailLinkLabel.TabStop = true;
+            this.EmailLinkLabel.Text = "halfer.locker@yandex.ru";
             // 
             // GitHubLabel
             // 
             this.GitHubLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.GitHubLabel.AutoSize = true;
             this.GitHubLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.GitHubLabel.Location = new System.Drawing.Point(29, 96);
+            this.GitHubLabel.Location = new System.Drawing.Point(29, 112);
             this.GitHubLabel.Name = "GitHubLabel";
             this.GitHubLabel.Size = new System.Drawing.Size(48, 15);
             this.GitHubLabel.TabIndex = 5;
@@ -105,7 +125,7 @@
             this.EmailLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.EmailLabel.AutoSize = true;
             this.EmailLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.EmailLabel.Location = new System.Drawing.Point(29, 66);
+            this.EmailLabel.Location = new System.Drawing.Point(29, 82);
             this.EmailLabel.Name = "EmailLabel";
             this.EmailLabel.Size = new System.Drawing.Size(42, 15);
             this.EmailLabel.TabIndex = 4;
@@ -116,7 +136,7 @@
             this.AuthorLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.AuthorLabel.AutoSize = true;
             this.AuthorLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.AuthorLabel.Location = new System.Drawing.Point(29, 24);
+            this.AuthorLabel.Location = new System.Drawing.Point(29, 40);
             this.AuthorLabel.Name = "AuthorLabel";
             this.AuthorLabel.Size = new System.Drawing.Size(154, 15);
             this.AuthorLabel.TabIndex = 3;
@@ -142,26 +162,6 @@
             this.FooterLabel.TabIndex = 6;
             this.FooterLabel.Text = "2018 Alexander Chudnov ©";
             // 
-            // EmailLinkLabel
-            // 
-            this.EmailLinkLabel.AutoSize = true;
-            this.EmailLinkLabel.Location = new System.Drawing.Point(77, 68);
-            this.EmailLinkLabel.Name = "EmailLinkLabel";
-            this.EmailLinkLabel.Size = new System.Drawing.Size(122, 13);
-            this.EmailLinkLabel.TabIndex = 6;
-            this.EmailLinkLabel.TabStop = true;
-            this.EmailLinkLabel.Text = "halfer.locker@yandex.ru";
-            // 
-            // GitHubLinkLabel
-            // 
-            this.GitHubLinkLabel.AutoSize = true;
-            this.GitHubLinkLabel.Location = new System.Drawing.Point(77, 98);
-            this.GitHubLinkLabel.Name = "GitHubLinkLabel";
-            this.GitHubLinkLabel.Size = new System.Drawing.Size(156, 13);
-            this.GitHubLinkLabel.TabIndex = 7;
-            this.GitHubLinkLabel.TabStop = true;
-            this.GitHubLinkLabel.Text = "https://github.com/NeroLocker";
-            // 
             // AboutForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -173,6 +173,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "AboutForm";
+            this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "About";
             this.HeaderPanel.ResumeLayout(false);
