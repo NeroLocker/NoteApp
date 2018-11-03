@@ -285,6 +285,6 @@ namespace NoteAppUI
             ContentTextBox.BackColor = Color.White;
         }
 
-        # endregion
+        #endregion
     }
 }
