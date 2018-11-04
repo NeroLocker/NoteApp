@@ -47,17 +47,38 @@ namespace NoteAppUI
         }
 
         /// <summary>
-        /// Конструктор, вызываемый при редактировании заметки
+        /// Конструктор, устанавливающий подсказки
         /// </summary>
-        /// <param name="currentNote"></param>
-        public AddEditNoteForm(Note currentNote)
+        public AddEditNoteForm()
         {
             InitializeComponent();
 
             // Устанавливаем всплывающие подсказки
-            OkButtonToolTip.SetToolTip(OkButton, "Save new note");
+            OkButtonToolTip.SetToolTip(OkButton, "Save changes to current note");
             CancelButtonToolTip.SetToolTip(CancelButton, "Exit without saving");
+        }
 
+        /// <summary>
+        /// Создаёт новую заметку
+        /// </summary>
+        public void AddNote()
+        {
+            // Флаг на редактирование
+            IsEdit = false;
+
+            // Имя заметки по умолчанию
+            TitleTextBox.Text = "Note";
+            FillCategoryItems();
+            DateOfCreationTextBox.Text = DateTime.Now.ToString();
+            DateOfLastEditTextBox.Text = DateTime.Now.ToString();
+        }
+
+        /// <summary>
+        /// Редактирует текующую заметку
+        /// </summary>
+        /// <param name="currentNote"></param>
+        public void EditNote(Note currentNote)
+        {
             CurrentNote = currentNote;
 
             // Флаг на редактирование
@@ -66,33 +87,22 @@ namespace NoteAppUI
             // Заполняем данные
             TitleTextBox.Text = CurrentNote.Name;
             FillCategoryItems();
-            CategoryComboBox.Text = CurrentNote.Category.ToString();
+
+            // Особый случай с категориями
+            if (CurrentNote.Category == NoteCategory.HealthAndSport)
+            {
+                CategoryComboBox.Text = "Health and Sport";
+            }
+            else
+            {
+                CategoryComboBox.Text = CurrentNote.Category.ToString();
+            }
+            
             DateOfCreationTextBox.Text = CurrentNote.DateOfCreation.ToString();
             DateOfLastEditTextBox.Text = CurrentNote.DateOfLastEdit.ToString();
             ContentTextBox.Text = CurrentNote.Content;
-        }
-
-        /// <summary>
-        /// Конструктор, вызываемый при создании новой заметки
-        /// </summary>
-        public AddEditNoteForm()
-        {
-            InitializeComponent();
-
-            // Флаг на редактирование
-            IsEdit = false;
-
-            // Устанавливаем всплывающие подсказки
-            OkButtonToolTip.SetToolTip(OkButton, "Save changes to current note");
-            CancelButtonToolTip.SetToolTip(CancelButton, "Exit without saving");
-
-            // Имя заметки по умолчанию
-            TitleTextBox.Text = "Note";
-            FillCategoryItems();
-            DateOfCreationTextBox.Text = DateTime.Now.ToString();
-            DateOfLastEditTextBox.Text = DateTime.Now.ToString();            
-        }
-
+        }      
+        
         /// <summary>
         /// Заполняет категории заметки
         /// </summary>
@@ -100,7 +110,7 @@ namespace NoteAppUI
         {
             CategoryComboBox.Items.Add(NoteCategory.Work.ToString());
             CategoryComboBox.Items.Add(NoteCategory.Home.ToString());
-            CategoryComboBox.Items.Add(NoteCategory.HealthAndSport.ToString());
+            CategoryComboBox.Items.Add("Health and Sport");
             CategoryComboBox.Items.Add(NoteCategory.People.ToString());
             CategoryComboBox.Items.Add(NoteCategory.Documents.ToString());
             CategoryComboBox.Items.Add(NoteCategory.Finance.ToString());

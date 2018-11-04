@@ -44,15 +44,15 @@
             this.OkButtonToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.CancelButtonToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.ErrorShowingToolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.panel1.SuspendLayout();
+            this.MainPanel = new System.Windows.Forms.Panel();
+            this.MainPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
-            this.label1.Location = new System.Drawing.Point(14, 37);
+            this.label1.Location = new System.Drawing.Point(6, 37);
             this.label1.Margin = new System.Windows.Forms.Padding(5);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(66, 16);
@@ -64,11 +64,11 @@
             this.CategoryComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
             this.CategoryComboBox.ForeColor = System.Drawing.SystemColors.WindowText;
             this.CategoryComboBox.FormattingEnabled = true;
-            this.CategoryComboBox.Location = new System.Drawing.Point(90, 34);
+            this.CategoryComboBox.Location = new System.Drawing.Point(82, 34);
             this.CategoryComboBox.Margin = new System.Windows.Forms.Padding(5);
             this.CategoryComboBox.MaxLength = 20;
             this.CategoryComboBox.Name = "CategoryComboBox";
-            this.CategoryComboBox.Size = new System.Drawing.Size(169, 24);
+            this.CategoryComboBox.Size = new System.Drawing.Size(195, 24);
             this.CategoryComboBox.TabIndex = 2;
             this.CategoryComboBox.SelectedIndexChanged += new System.EventHandler(this.CategoryComboBox_SelectedIndexChanged);
             this.CategoryComboBox.Enter += new System.EventHandler(this.CategoryComboBox_Enter);
@@ -116,7 +116,7 @@
             // 
             this.CreatedLabel.AutoSize = true;
             this.CreatedLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
-            this.CreatedLabel.Location = new System.Drawing.Point(15, 71);
+            this.CreatedLabel.Location = new System.Drawing.Point(6, 71);
             this.CreatedLabel.Margin = new System.Windows.Forms.Padding(5);
             this.CreatedLabel.Name = "CreatedLabel";
             this.CreatedLabel.Size = new System.Drawing.Size(65, 16);
@@ -126,18 +126,18 @@
             // DateOfCreationTextBox
             // 
             this.DateOfCreationTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
-            this.DateOfCreationTextBox.Location = new System.Drawing.Point(90, 68);
+            this.DateOfCreationTextBox.Location = new System.Drawing.Point(82, 68);
             this.DateOfCreationTextBox.Margin = new System.Windows.Forms.Padding(5);
             this.DateOfCreationTextBox.Name = "DateOfCreationTextBox";
             this.DateOfCreationTextBox.ReadOnly = true;
-            this.DateOfCreationTextBox.Size = new System.Drawing.Size(120, 22);
+            this.DateOfCreationTextBox.Size = new System.Drawing.Size(119, 22);
             this.DateOfCreationTextBox.TabIndex = 5;
             // 
             // ModifiedLabel
             // 
             this.ModifiedLabel.AutoSize = true;
             this.ModifiedLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
-            this.ModifiedLabel.Location = new System.Drawing.Point(220, 71);
+            this.ModifiedLabel.Location = new System.Drawing.Point(211, 71);
             this.ModifiedLabel.Margin = new System.Windows.Forms.Padding(5);
             this.ModifiedLabel.Name = "ModifiedLabel";
             this.ModifiedLabel.Size = new System.Drawing.Size(63, 16);
@@ -147,7 +147,7 @@
             // DateOfLastEditTextBox
             // 
             this.DateOfLastEditTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
-            this.DateOfLastEditTextBox.Location = new System.Drawing.Point(293, 68);
+            this.DateOfLastEditTextBox.Location = new System.Drawing.Point(284, 68);
             this.DateOfLastEditTextBox.Margin = new System.Windows.Forms.Padding(5);
             this.DateOfLastEditTextBox.Name = "DateOfLastEditTextBox";
             this.DateOfLastEditTextBox.ReadOnly = true;
@@ -158,7 +158,7 @@
             // 
             this.TitleLabel.AutoSize = true;
             this.TitleLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
-            this.TitleLabel.Location = new System.Drawing.Point(14, 5);
+            this.TitleLabel.Location = new System.Drawing.Point(6, 5);
             this.TitleLabel.Margin = new System.Windows.Forms.Padding(5);
             this.TitleLabel.Name = "TitleLabel";
             this.TitleLabel.Size = new System.Drawing.Size(37, 16);
@@ -172,47 +172,47 @@
             this.TitleTextBox.BackColor = System.Drawing.SystemColors.Window;
             this.TitleTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
             this.TitleTextBox.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.TitleTextBox.Location = new System.Drawing.Point(90, 2);
+            this.TitleTextBox.Location = new System.Drawing.Point(82, 2);
             this.TitleTextBox.Margin = new System.Windows.Forms.Padding(5);
             this.TitleTextBox.MaxLength = 20;
             this.TitleTextBox.Name = "TitleTextBox";
-            this.TitleTextBox.Size = new System.Drawing.Size(737, 22);
+            this.TitleTextBox.Size = new System.Drawing.Size(745, 22);
             this.TitleTextBox.TabIndex = 4;
             this.TitleTextBox.Enter += new System.EventHandler(this.TitleTextBox_Enter);
             // 
-            // panel1
+            // MainPanel
             // 
-            this.panel1.Controls.Add(this.CancelButton);
-            this.panel1.Controls.Add(this.OkButton);
-            this.panel1.Controls.Add(this.CreatedLabel);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.ContentTextBox);
-            this.panel1.Controls.Add(this.DateOfCreationTextBox);
-            this.panel1.Controls.Add(this.TitleTextBox);
-            this.panel1.Controls.Add(this.ModifiedLabel);
-            this.panel1.Controls.Add(this.CategoryComboBox);
-            this.panel1.Controls.Add(this.DateOfLastEditTextBox);
-            this.panel1.Controls.Add(this.TitleLabel);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(832, 441);
-            this.panel1.TabIndex = 1;
+            this.MainPanel.Controls.Add(this.CancelButton);
+            this.MainPanel.Controls.Add(this.OkButton);
+            this.MainPanel.Controls.Add(this.CreatedLabel);
+            this.MainPanel.Controls.Add(this.label1);
+            this.MainPanel.Controls.Add(this.ContentTextBox);
+            this.MainPanel.Controls.Add(this.DateOfCreationTextBox);
+            this.MainPanel.Controls.Add(this.TitleTextBox);
+            this.MainPanel.Controls.Add(this.ModifiedLabel);
+            this.MainPanel.Controls.Add(this.CategoryComboBox);
+            this.MainPanel.Controls.Add(this.DateOfLastEditTextBox);
+            this.MainPanel.Controls.Add(this.TitleLabel);
+            this.MainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.MainPanel.Location = new System.Drawing.Point(0, 0);
+            this.MainPanel.Name = "MainPanel";
+            this.MainPanel.Size = new System.Drawing.Size(832, 441);
+            this.MainPanel.TabIndex = 1;
             // 
             // AddEditNoteForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(832, 441);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.MainPanel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximumSize = new System.Drawing.Size(1366, 768);
             this.MinimumSize = new System.Drawing.Size(848, 480);
             this.Name = "AddEditNoteForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Add/Edit Note";
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.MainPanel.ResumeLayout(false);
+            this.MainPanel.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -235,6 +235,6 @@
         private System.Windows.Forms.ToolTip OkButtonToolTip;
         private System.Windows.Forms.ToolTip CancelButtonToolTip;
         private System.Windows.Forms.ToolTip ErrorShowingToolTip;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel MainPanel;
     }
 }

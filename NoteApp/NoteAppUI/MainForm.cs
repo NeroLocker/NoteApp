@@ -101,9 +101,10 @@ namespace NoteAppUI
             if (CurrentProject.NotesCollection.Count < 200)
             {
                 AddEditNoteForm addEditNoteForm = new AddEditNoteForm();
+                addEditNoteForm.AddNote();
 
                 if (addEditNoteForm.ShowDialog() == DialogResult.OK)
-                {
+                {                    
                     CurrentProject.NotesCollection.Add(addEditNoteForm.CurrentNote);
                     ProjectManager.SaveToFile(CurrentProject, "Project");
                     UpdateNotesList();
@@ -126,7 +127,10 @@ namespace NoteAppUI
             // Должна быть выбрана заметка
             if (NotesListBox.SelectedIndex != -1)
             {
-                AddEditNoteForm addEditNoteForm = new AddEditNoteForm(CurrentProject.NotesCollection[NoteId]);
+                AddEditNoteForm addEditNoteForm = new AddEditNoteForm();
+                addEditNoteForm.EditNote(CurrentProject.NotesCollection[NoteId]);
+
+                //AddEditNoteForm addEditNoteForm = new AddEditNoteForm(CurrentProject.NotesCollection[NoteId]);
                 if (addEditNoteForm.ShowDialog() == DialogResult.OK)
                 {
                     CurrentProject.NotesCollection[NoteId] = addEditNoteForm.CurrentNote;
@@ -213,9 +217,10 @@ namespace NoteAppUI
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void NewNoteButton_Click(object sender, EventArgs e)
+        private void AddNoteButton_Click(object sender, EventArgs e)
         {
             AddEditNoteForm addEditNoteForm = new AddEditNoteForm();
+            addEditNoteForm.AddNote();
 
             // Можно добавить только до 200 заметок
             if (CurrentProject.NotesCollection.Count < 200)
@@ -244,7 +249,10 @@ namespace NoteAppUI
             // Должна быть выбрана заметка
             if (NotesListBox.SelectedIndex != -1)
             {
-                AddEditNoteForm addEditNoteForm = new AddEditNoteForm(CurrentProject.NotesCollection[NoteId]);
+                //AddEditNoteForm addEditNoteForm = new AddEditNoteForm(CurrentProject.NotesCollection[NoteId]);
+                AddEditNoteForm addEditNoteForm = new AddEditNoteForm();
+                addEditNoteForm.EditNote(CurrentProject.NotesCollection[NoteId]);
+
                 if (addEditNoteForm.ShowDialog() == DialogResult.OK)
                 {
                     CurrentProject.NotesCollection[NoteId] = addEditNoteForm.CurrentNote;
@@ -309,7 +317,17 @@ namespace NoteAppUI
             if (NoteId != -1)
             {
                 NoteNameLabel.Text = CurrentProject.NotesCollection[NoteId].Name;
-                CategoryLabel.Text = CurrentProject.NotesCollection[NoteId].Category.ToString();
+
+                // Особый случай с категориями
+                if (CurrentProject.NotesCollection[NoteId].Category == NoteCategory.HealthAndSport)
+                {
+                    CategoryLabel.Text = "Health and Sport";
+                }
+                else
+                {
+                    CategoryLabel.Text = CurrentProject.NotesCollection[NoteId].Category.ToString();
+                }
+                
                 DateOfCreationTextBox.Text = CurrentProject.NotesCollection[NoteId].DateOfCreation.ToString();
                 DateOfLastEditTextBox.Text = CurrentProject.NotesCollection[NoteId].DateOfLastEdit.ToString();
                 ContentTextBox.Text = CurrentProject.NotesCollection[NoteId].Content;
