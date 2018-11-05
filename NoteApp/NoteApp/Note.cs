@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using DateTime = System.DateTime;
 
@@ -37,33 +38,34 @@ namespace NoteApp
         /// </summary>
         private DateTime _dateOfLastEdit;
 
-        /// <summary>
-        /// Конструктор экземпляра, который устанавливает значения полей заметкии
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="content"></param>
-        /// <param name="category"></param>
-        public Note(string name, string content, NoteCategory category)
-        {
-            Name = name;
-            Content = content;
-            Category = category;
-            DateOfCreation = DateTime.Now;
-            DateOfLastEdit = DateTime.Now;
-        }
-        
         public string Name
         {
             get { return _name; }
             set
             {
+                // Буквенно-цифровое выражение, подчеркивания и дефисы
+                string pattern = @"^[a-zA-Z0-9_-]*$";
+
+                if (value == null)
+                {
+                    throw new ArgumentException("Name value is instance of null type");
+                }
+
                 if (value.Length == 0)
                 {
-                    throw new ArgumentException("Length of name contains 0 symbols");
+                    throw new ArgumentException("Name length is 0 symbols");
                 }
-                else if(value.Length != 0 && value.Length > 50)
+                else if (value.Length != 0 && value.Length > 70)
                 {
-                    throw new ArgumentException("Length of name contains more than 50 symbols");
+                    throw new ArgumentException("Name length is more than 70 symbols");
+                }
+                else if (value[0].ToString() == " ")
+                {
+                    throw new ArgumentException("Name value starts with space symbol");
+                }
+                else if (!Regex.IsMatch(value, pattern))
+                {
+                    throw new ArgumentException("Name value contains special symbols");
                 }
                 else
                 {
@@ -77,13 +79,23 @@ namespace NoteApp
             get { return _content; }
             set
             {
+                if (value == null)
+                {
+                    throw new ArgumentException("Content value is instance of null type");
+                }
+
                 if (value.Length == 0)
                 {
-                    throw new ArgumentException("Length of content contains 0 symbols");
+                    throw new ArgumentException("Content length is 0 symbols");
                 }
-                else if (value.Length != 0 && value.Length > 500)
+                // Ограничения как у сообщения ВК
+                else if (value.Length != 0 && value.Length > 4096)
                 {
-                    throw new ArgumentException("Length of content contains more than 500 symbols");
+                    throw new ArgumentException("Content length is more than 4096 symbols");
+                }
+                else if (value[0].ToString() == " ")
+                {
+                    throw new ArgumentException("Content value starts with space symbol");
                 }
                 else
                 {
@@ -110,6 +122,21 @@ namespace NoteApp
             set { _dateOfLastEdit = value; }
         }
 
+        /// <summary>
+        /// Конструктор экземпляра, который устанавливает значения полей заметки
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="content"></param>
+        /// <param name="category"></param>
+        public Note(string name, string content, NoteCategory category)
+        {
+            Name = name;
+            Content = content;
+            Category = category;
+            DateOfCreation = DateTime.Now;
+            DateOfLastEdit = DateTime.Now;
+        }
+                              
         /// <summary>
         /// Метод для редактирования заметки
         /// </summary>

@@ -71,6 +71,9 @@ namespace NoteAppUI
             // Подгружаем данные в ListBox
             NotesListBox.DataSource = CurrentProject.NotesCollection;
             NotesListBox.DisplayMember = "Name";
+
+            // Чистим поля
+            ClearFields();
         }
 
         /// <summary>
@@ -85,6 +88,18 @@ namespace NoteAppUI
             NotesListBox.DataSource = null;
             NotesListBox.DataSource = CurrentProject.NotesCollection;
             NotesListBox.DisplayMember = "Name";
+        }
+
+        /// <summary>
+        /// Чистит все информационные поля заметки
+        /// </summary>
+        private void ClearFields()
+        {
+            NoteNameLabel.Text = "";
+            CategoryLabel.Text = "";
+            DateOfCreationTextBox.Text = "";
+            DateOfLastEditTextBox.Text = "";
+            ContentTextBox.Text = "";
         }
 
         // Всё что относится к меню
@@ -331,6 +346,10 @@ namespace NoteAppUI
                 DateOfCreationTextBox.Text = CurrentProject.NotesCollection[NoteId].DateOfCreation.ToString();
                 DateOfLastEditTextBox.Text = CurrentProject.NotesCollection[NoteId].DateOfLastEdit.ToString();
                 ContentTextBox.Text = CurrentProject.NotesCollection[NoteId].Content;
+            }
+            else
+            {
+                ClearFields();
             }
         }
 
