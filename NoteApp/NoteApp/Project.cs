@@ -19,36 +19,6 @@ namespace NoteApp
         /// </summary>
         private List<Note> _notesCollection = new List<Note>();
 
-        /// <summary>
-        /// Хранит название проекта
-        /// </summary>
-        private string _filename;
-
-        public Project(string filename)
-        {
-            Filename = filename;            
-        }
-
-        public string Filename
-        {
-            get { return _filename; }
-            set
-            {
-                if (value.Length == 0)
-                {
-                    throw new ArgumentException("Length of filename contains 0 symbols");
-                }
-                else if (value.Length != 0 && value.Length > 25)
-                {
-                    throw new ArgumentException("Length of name content more than 25 symbols");
-                }
-                else
-                {
-                    _filename = value;
-                }
-            }
-        }
-
         public List<Note> NotesCollection
         {
             get { return _notesCollection; }
