@@ -40,38 +40,11 @@ namespace NoteAppUI
         {
             InitializeComponent();
 
-            // Попытка загрузить существующий проект, если его нет - создаём новый
-            try
-            {
-                CurrentProject = ProjectManager.LoadFromFile("Project");
-            }
-            // Создаём директорию хранения файла проекта, если её нет
-            catch (DirectoryNotFoundException)
-            {
-                if (Directory.Exists(System.Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\NoteApp") == false)
-                {
-                    Directory.CreateDirectory(System.Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\NoteApp");
-                    File.Create(System.Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\NoteApp\\NoteApp.notes");
+            //Valera
+            CurrentProject = ProjectManager.LoadFromFile();
+            this.NotesListBox.DataSource = CurrentProject.NotesCollection;
+            this.NotesListBox.DisplayMember = "Name";
 
-                    CurrentProject = new Project("Project");
-                }                
-            }
-            // Создаём пустой файл хранения проекта
-            catch (FileNotFoundException)
-            {
-                if (Directory.Exists(System.Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\NoteApp\\NoteApp.notes") == false)
-                {
-                    File.Create(System.Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\NoteApp\\NoteApp.notes");
-                }
-
-                CurrentProject = new Project("Project");
-            }
-
-            // Подгружаем данные в ListBox
-
-            NotesListBox.DataSource = CurrentProject.NotesCollection;
-            NotesListBox.DisplayMember = "Name";
-            
             // Чистим поля
             ClearFields();
         }
@@ -82,7 +55,7 @@ namespace NoteAppUI
         private void UpdateNotesList()
         {
             // Перезагружаем проект
-            CurrentProject = ProjectManager.LoadFromFile("Project");
+            CurrentProject = ProjectManager.LoadFromFile();
 
             // Обновляем данные коллекции
             NotesListBox.DataSource = null;
@@ -121,7 +94,7 @@ namespace NoteAppUI
                 if (addEditNoteForm.ShowDialog() == DialogResult.OK)
                 {                    
                     CurrentProject.NotesCollection.Add(addEditNoteForm.CurrentNote);
-                    ProjectManager.SaveToFile(CurrentProject, "Project");
+                    ProjectManager.SaveToFile(CurrentProject);
                     UpdateNotesList();
                 }
             }
@@ -149,7 +122,7 @@ namespace NoteAppUI
                 if (addEditNoteForm.ShowDialog() == DialogResult.OK)
                 {
                     CurrentProject.NotesCollection[NoteId] = addEditNoteForm.CurrentNote;
-                    ProjectManager.SaveToFile(CurrentProject, "Project");
+                    ProjectManager.SaveToFile(CurrentProject);
                     UpdateNotesList();
                 }
             }
@@ -181,7 +154,7 @@ namespace NoteAppUI
             // Для сохранения список заметок должен быть не пустым
             if (CurrentProject.NotesCollection.Count != 0)
             {
-                ProjectManager.SaveToFile(CurrentProject, "Project");
+                ProjectManager.SaveToFile(CurrentProject);
                 Application.Exit();
             }
             else
@@ -205,7 +178,7 @@ namespace NoteAppUI
                 if (result == DialogResult.Yes)
                 {
                     CurrentProject.NotesCollection.RemoveAt(NoteId);
-                    ProjectManager.SaveToFile(CurrentProject, "Project");
+                    ProjectManager.SaveToFile(CurrentProject);
                     UpdateNotesList();
 
                     this.DialogResult = DialogResult.Cancel;
@@ -243,7 +216,7 @@ namespace NoteAppUI
                 if (addEditNoteForm.ShowDialog() == DialogResult.OK)
                 {
                     CurrentProject.NotesCollection.Add(addEditNoteForm.CurrentNote);
-                    ProjectManager.SaveToFile(CurrentProject, "Project");
+                    ProjectManager.SaveToFile(CurrentProject);
                     UpdateNotesList();
                 }
             }
@@ -271,7 +244,7 @@ namespace NoteAppUI
                 if (addEditNoteForm.ShowDialog() == DialogResult.OK)
                 {
                     CurrentProject.NotesCollection[NoteId] = addEditNoteForm.CurrentNote;
-                    ProjectManager.SaveToFile(CurrentProject, "Project");
+                    ProjectManager.SaveToFile(CurrentProject);
                     UpdateNotesList();
                 }
             }
@@ -297,7 +270,7 @@ namespace NoteAppUI
                 {
                     // Удаляем заметку по id
                     CurrentProject.NotesCollection.RemoveAt(NoteId);
-                    ProjectManager.SaveToFile(CurrentProject, "Project");
+                    ProjectManager.SaveToFile(CurrentProject);
                     UpdateNotesList();
 
                     this.DialogResult = DialogResult.Cancel;
@@ -366,7 +339,7 @@ namespace NoteAppUI
                 // Для сохранения список заметок должен быть не пустым
                 if (CurrentProject.NotesCollection.Count != 0)
                 {
-                    ProjectManager.SaveToFile(CurrentProject, "Project");
+                    ProjectManager.SaveToFile(CurrentProject);
                 }
             }
 
