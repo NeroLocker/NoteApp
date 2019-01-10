@@ -52,6 +52,10 @@ namespace NoteApp
             {
                 throw e;
             }
+            catch (NullReferenceException e)
+            {
+                throw e;
+            }
             
             project = JsonConvert.DeserializeObject<Project>(data);
    

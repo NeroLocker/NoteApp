@@ -117,12 +117,7 @@ namespace NoteAppUI
             CategoryComboBox.Items.Add(NoteCategory.Other.ToString());
         }
 
-        /// <summary>
-        /// Событие нажатия кнопки Ok
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void OkButton_Click(object sender, EventArgs e)
+        public void HighlightFields()
         {
             if (TitleTextBox.Text == "")
             {
@@ -138,6 +133,16 @@ namespace NoteAppUI
             {
                 ContentTextBox.BackColor = Color.MistyRose;
             }
+        }
+
+        /// <summary>
+        /// Событие нажатия кнопки Ok
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OkButton_Click(object sender, EventArgs e)
+        {
+            HighlightFields();
 
             // Если редактируем
             if (IsEdit)
@@ -162,16 +167,6 @@ namespace NoteAppUI
                             TitleTextBox.BackColor = Color.MistyRose;
                         }
 
-                        if (exception.Message == "Name value starts with space symbol")
-                        {
-                            TitleTextBox.BackColor = Color.MistyRose;
-                        }
-
-                        if (exception.Message == "Name value contains special symbols")
-                        {
-                            TitleTextBox.BackColor = Color.MistyRose;
-                        }
-
                         return;
                     }
 
@@ -187,11 +182,6 @@ namespace NoteAppUI
                         }
 
                         if (exception.Message == "Content length is more than 4096 symbols")
-                        {
-                            ContentTextBox.BackColor = Color.MistyRose;
-                        }
-
-                        if (exception.Message == "Content value starts with space symbol")
                         {
                             ContentTextBox.BackColor = Color.MistyRose;
                         }
@@ -229,16 +219,6 @@ namespace NoteAppUI
                             TitleTextBox.BackColor = Color.MistyRose;
                         }
 
-                        if (exception.Message == "Name value starts with space symbol")
-                        {
-                            TitleTextBox.BackColor = Color.MistyRose;
-                        }
-
-                        if (exception.Message == "Name value contains special symbols")
-                        {
-                            TitleTextBox.BackColor = Color.MistyRose;
-                        }
-
                         // Content
                         if (exception.Message == "Content length is 0 symbols")
                         {
@@ -246,11 +226,6 @@ namespace NoteAppUI
                         }
 
                         if (exception.Message == "Content length is more than 4096 symbols")
-                        {
-                            ContentTextBox.BackColor = Color.MistyRose;
-                        }
-
-                        if (exception.Message == "Content value starts with space symbol")
                         {
                             ContentTextBox.BackColor = Color.MistyRose;
                         }

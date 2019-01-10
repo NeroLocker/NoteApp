@@ -44,7 +44,6 @@ namespace NoteAppUI
             try
             {
                 CurrentProject = ProjectManager.LoadFromFile("Project");
-
             }
             // Создаём директорию хранения файла проекта, если её нет
             catch (DirectoryNotFoundException)
@@ -69,9 +68,10 @@ namespace NoteAppUI
             }
 
             // Подгружаем данные в ListBox
+
             NotesListBox.DataSource = CurrentProject.NotesCollection;
             NotesListBox.DisplayMember = "Name";
-
+            
             // Чистим поля
             ClearFields();
         }
@@ -367,7 +367,7 @@ namespace NoteAppUI
                 if (CurrentProject.NotesCollection.Count != 0)
                 {
                     ProjectManager.SaveToFile(CurrentProject, "Project");
-                }                      
+                }
             }
 
             if (result == DialogResult.No)

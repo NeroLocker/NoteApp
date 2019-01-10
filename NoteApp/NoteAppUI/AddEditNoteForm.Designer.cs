@@ -105,7 +105,7 @@
             this.ContentTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.ContentTextBox.Location = new System.Drawing.Point(5, 97);
             this.ContentTextBox.Margin = new System.Windows.Forms.Padding(5);
-            this.ContentTextBox.MaxLength = 500;
+            this.ContentTextBox.MaxLength = 4096;
             this.ContentTextBox.Multiline = true;
             this.ContentTextBox.Name = "ContentTextBox";
             this.ContentTextBox.Size = new System.Drawing.Size(822, 297);
@@ -174,7 +174,7 @@
             this.TitleTextBox.ForeColor = System.Drawing.SystemColors.WindowText;
             this.TitleTextBox.Location = new System.Drawing.Point(82, 2);
             this.TitleTextBox.Margin = new System.Windows.Forms.Padding(5);
-            this.TitleTextBox.MaxLength = 20;
+            this.TitleTextBox.MaxLength = 70;
             this.TitleTextBox.Name = "TitleTextBox";
             this.TitleTextBox.Size = new System.Drawing.Size(745, 22);
             this.TitleTextBox.TabIndex = 4;

@@ -3,21 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NUnit.Framework;
 
 namespace NoteApp.UnitTests
 {
+    [TestFixture]
     public class NoteTest
     {
-
-    }
-
-    public class ProjectTest
-    {
-
-    }
-
-    public class ProjectManagerTest
-    {
-
+        
     }
 }

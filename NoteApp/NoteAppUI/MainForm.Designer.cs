@@ -288,21 +288,21 @@
             // MyAddNoteToolStripMenuItem
             // 
             this.MyAddNoteToolStripMenuItem.Name = "MyAddNoteToolStripMenuItem";
-            this.MyAddNoteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.MyAddNoteToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.MyAddNoteToolStripMenuItem.Text = "Add Note";
             this.MyAddNoteToolStripMenuItem.Click += new System.EventHandler(this.MyAddNoteToolStripMenuItem_Click);
             // 
             // MyEditNoteToolStripMenuItem
             // 
             this.MyEditNoteToolStripMenuItem.Name = "MyEditNoteToolStripMenuItem";
-            this.MyEditNoteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.MyEditNoteToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.MyEditNoteToolStripMenuItem.Text = "Edit Note";
             this.MyEditNoteToolStripMenuItem.Click += new System.EventHandler(this.MyEditNoteToolStripMenuItem_Click);
             // 
             // MyRemoveNoteToolStripMenuItem
             // 
             this.MyRemoveNoteToolStripMenuItem.Name = "MyRemoveNoteToolStripMenuItem";
-            this.MyRemoveNoteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.MyRemoveNoteToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.MyRemoveNoteToolStripMenuItem.Text = "Remove Note";
             this.MyRemoveNoteToolStripMenuItem.Click += new System.EventHandler(this.MyRemoveNoteToolStripMenuItem_Click);
             // 
