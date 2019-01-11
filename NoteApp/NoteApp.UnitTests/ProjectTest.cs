@@ -9,7 +9,8 @@ namespace NoteApp.UnitTests
 {
     [TestFixture]
     public class ProjectTest
-    {        [Test(Description = "Позитивный тест геттера NotesCollection")]
+    {        
+        [Test(Description = "Позитивный тест геттера NotesCollection")]
         public void TestNotesCollectionGet_CorrectValue()
         {
             var expected = new List<Note>();

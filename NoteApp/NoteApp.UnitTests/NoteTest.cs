@@ -18,6 +18,15 @@ namespace NoteApp.UnitTests
             _note = new Note("default name", "default content", NoteCategory.Other);
         }
 
+        [TestCase("default name", "default content", NoteCategory.Other,
+            TestName = "Тест конструктора")]
+        public void TestNoteConstructor(string expectedName, string expectedContent,
+            NoteCategory expectedCategory)
+        {
+            Assert.AreEqual(expectedName, _note.Name);
+            Assert.AreEqual(expectedContent, _note.Content);
+            Assert.AreEqual(expectedCategory, _note.Category);
+        }
 
         [Test(Description = "Позитивный тест геттера Name")]
         public void TestNameGet_CorrectValue()
@@ -27,6 +36,35 @@ namespace NoteApp.UnitTests
             var actual = _note.Name;
 
             Assert.AreEqual(expected, actual, "Геттер Name возвращает неправильное имя");
+        }
+
+        [TestCase("", "Должно возникать исключение, если Name - пустая строка", TestName = "Присвоение пустой строки в качестве Name")]
+        [TestCase("Note-Note-Note-Note-Note-Note-Note-Note-Note-Note-Note-Note-Note-Note-Note-Note-Note-Note-Note-Note-Note-Note-Note-Note-Note-Note-Note-Note-Note-Note-Note-Note",
+            "Должно возникать исключение, если Name больше 70 символов", TestName = "Присвоение неправильного Name больше 70 символов")]
+        public void TestNameSet_ArgumentException(string wrongName, string message)
+        {
+            Assert.Throws<ArgumentException>(
+                () => { _note.Name = wrongName; },
+                message);
+        }
+
+        [Test(Description = "Позитивный тест сеттера Name")]
+        public void TestNameSet_CorrectValue()
+        {            
+            Assert.DoesNotThrow(
+                        () => { _note.Name = "default name"; },
+                        "Не должно возникать исключения"
+                    );      
+        }
+
+        [Test(Description = "Позитивный тест геттера Content")]
+        public void TestContentGet_CorrectValue()
+        {
+            var expected = "default content";
+            _note.Content = expected;
+            var actual = _note.Content;
+
+            Assert.AreEqual(expected, actual, "Геттер Content возвращает неправильное содержимое");
         }
 
         //[Test(Description = "Присвоение неправильного Name больше 70 символов")]
@@ -55,15 +93,7 @@ namespace NoteApp.UnitTests
         //}
 
 
-        [TestCase("", "Должно возникать исключение, если Name - пустая строка", TestName = "Присвоение пустой строки в качестве Name")]
-        [TestCase("Note-Note-Note-Note-Note-Note-Note-Note-Note-Note-Note-Note-Note-Note-Note-Note-Note-Note-Note-Note-Note-Note-Note-Note-Note-Note-Note-Note-Note-Note-Note-Note",
-            "Должно возникать исключение, если Name больше 70 символов", TestName = "Присвоение неправильного Name больше 70 символов")]
-        public void TestNameSet_ArgumentException(string wrongName, string message)
-        {
-            Assert.Throws<ArgumentException>(
-                () => { _note.Name = wrongName; },
-                message);
-        }
+        
 
         [TestCase("", "Должно возникать исключение, если Content - пустая строка", TestName = "Присвоение пустой строки в качестве Content")]
         public void TestContentSet_ArgumentException(string wrongContent, string message)
@@ -71,6 +101,15 @@ namespace NoteApp.UnitTests
             Assert.Throws<ArgumentException>(
                 () => { _note.Content = wrongContent; },
                 message);
+        }
+
+        [Test(Description = "Позитивный тест сеттера Content")]
+        public void TestContentSet_CorrectValue()
+        {
+            Assert.DoesNotThrow(
+                () => { _note.Content = "default content"; },
+                "Не должно возникать исключения"
+            );
         }
 
         [Test(Description = "Позитивный тест геттера Category")]
@@ -136,14 +175,6 @@ namespace NoteApp.UnitTests
             Assert.AreEqual(expected.DateOfLastEdit, actual.DateOfLastEdit);
         }
 
-        [TestCase("default name", "default content", NoteCategory.Other,
-            TestName = "Тест конструктора")]
-        public void TestNoteConstructor(string expectedName, string expectedContent,
-            NoteCategory expectedCategory)
-        {
-            Assert.AreEqual(expectedName, _note.Name);
-            Assert.AreEqual(expectedContent, _note.Content);
-            Assert.AreEqual(expectedCategory, _note.Category);            
-        }
+        
     }
 }
