@@ -63,7 +63,7 @@ namespace NoteApp
                 {
                     throw new ArgumentException("Name length is 0 symbols");
                 }
-                else if (value.Length != 0 && value.Length > 70)
+                else if (value.Length > 70)
                 {
                     throw new ArgumentException("Name length is more than 70 symbols");
                 }
@@ -82,12 +82,7 @@ namespace NoteApp
                 if (value.Length == 0)
                 {
                     throw new ArgumentException("Content length is 0 symbols");
-                }
-                // Ограничения как у сообщения ВК
-                else if (value.Length != 0 && value.Length > 4096)
-                {
-                    throw new ArgumentException("Content length is more than 4096 symbols");
-                }
+                }                
                 else
                 {
                     _content = value.Trim();
@@ -98,7 +93,7 @@ namespace NoteApp
         public NoteCategory Category
         {
             get { return _category; }
-            set { _category = value; }
+            set {_category = value;}
         }
 
         [JsonProperty]
@@ -114,7 +109,6 @@ namespace NoteApp
             get { return _dateOfLastEdit; }
             set { _dateOfLastEdit = value; }
         }
-
 
         /// <summary>
         /// Возвращает копию экземпляра заметки

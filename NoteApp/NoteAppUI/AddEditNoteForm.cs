@@ -181,11 +181,6 @@ namespace NoteAppUI
                             ContentTextBox.BackColor = Color.MistyRose;
                         }
 
-                        if (exception.Message == "Content length is more than 4096 symbols")
-                        {
-                            ContentTextBox.BackColor = Color.MistyRose;
-                        }
-
                         return;
                     }
 
@@ -221,11 +216,6 @@ namespace NoteAppUI
 
                         // Content
                         if (exception.Message == "Content length is 0 symbols")
-                        {
-                            ContentTextBox.BackColor = Color.MistyRose;
-                        }
-
-                        if (exception.Message == "Content length is more than 4096 symbols")
                         {
                             ContentTextBox.BackColor = Color.MistyRose;
                         }
