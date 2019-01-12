@@ -39,12 +39,21 @@ namespace NoteAppUI
         public MainForm()
         {
             InitializeComponent();
-
-            //Valera
+            
             CurrentProject = ProjectManager.LoadFromFile();
+
+            try
+            {
+                CurrentProject.SortNotesCollection();
+            }
+            catch (NullReferenceException)
+            {
+                
+            }
+            
             this.NotesListBox.DataSource = CurrentProject.NotesCollection;
             this.NotesListBox.DisplayMember = "Name";
-
+            
             // Чистим поля
             ClearFields();
         }
@@ -56,6 +65,7 @@ namespace NoteAppUI
         {
             // Перезагружаем проект
             CurrentProject = ProjectManager.LoadFromFile();
+            CurrentProject.SortNotesCollection();
 
             // Обновляем данные коллекции
             NotesListBox.DataSource = null;
@@ -357,6 +367,12 @@ namespace NoteAppUI
         private void NotesListBox_Enter(object sender, EventArgs e)
         {
             NotesListBox.BackColor = Color.White;
+        }
+
+
+        private void CategoryComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

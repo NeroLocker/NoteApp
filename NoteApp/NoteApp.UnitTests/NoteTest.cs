@@ -60,10 +60,19 @@ namespace NoteApp.UnitTests
         [Test(Description = "Позитивный тест геттера Content")]
         public void TestContentGet_CorrectValue()
         {
+            // Строка, которую ожидаем получить от геттера Content
             var expected = "default content";
+            
+            // Подготовительный этап - присвоение свойству значения
             _note.Content = expected;
+
+            // Получаем действительное значение от геттера
             var actual = _note.Content;
 
+            // Метод AreEqual сравнивает два объекта и выбрасывает исключение, если они не равны. Принимает три аргумента:
+            // expected - то, что ожидаем получить
+            // actual - то, что получилось (действительное значение)
+            // строка - выбрасываемое сообщение о неудаче           
             Assert.AreEqual(expected, actual, "Геттер Content возвращает неправильное содержимое");
         }
 
@@ -90,10 +99,7 @@ namespace NoteApp.UnitTests
         //        () => { note.Name = wrongName; },
         //        "Должно возникать исключение, если Name - пустая строка"
         //    );
-        //}
-
-
-        
+        //}        
 
         [TestCase("", "Должно возникать исключение, если Content - пустая строка", TestName = "Присвоение пустой строки в качестве Content")]
         public void TestContentSet_ArgumentException(string wrongContent, string message)
@@ -123,6 +129,15 @@ namespace NoteApp.UnitTests
             Assert.AreEqual(expected, actual, "Геттер Category возвращает неправильную категорию");
         }
 
+        [Test(Description = "Позитивный тест сеттера Category")]
+        public void TestCategorySet_CorrectValue()
+        {
+            Assert.DoesNotThrow(
+                () => { _note.Category = NoteCategory.Other; },
+                "Не должно возникать исключения"
+            );
+        }
+
         [Test(Description = "Позитивный тест геттера DateOfCreation")]
         public void TestDateOfCreationGet_CorrectValue()
         {
@@ -132,6 +147,15 @@ namespace NoteApp.UnitTests
             var actual = _note.DateOfCreation;
 
             Assert.AreEqual(expected, actual, "Геттер DateOfCreation возвращает неправильное время");
+        }
+
+        [Test(Description = "Позитивный тест сеттера DateOfCreation")]
+        public void TestDateOfCreationSet_CorrectValue()
+        {
+            Assert.DoesNotThrow(
+                () => { _note.DateOfCreation = DateTime.Now; },
+                "Не должно возникать исключения"
+            );
         }
 
         //[Test(Description = "Позитивный тест сеттера DateOfCreation")]
@@ -151,6 +175,15 @@ namespace NoteApp.UnitTests
             var actual = _note.DateOfCreation;
 
             Assert.AreEqual(expected, actual, "Геттер DateOfCreation возвращает неправильное время");
+        }
+
+        [Test(Description = "Позитивный тест сеттера DateOfLastEdit")]
+        public void TestDateOfLastEditSet_CorrectValue()
+        {
+            Assert.DoesNotThrow(
+                () => { _note.DateOfLastEdit = DateTime.Now; },
+                "Не должно возникать исключения"
+            );
         }
 
         //[Test(Description = "Позитивный тест сеттера DateOfLastEdit")]
@@ -173,8 +206,6 @@ namespace NoteApp.UnitTests
             Assert.AreEqual(expected.Category, actual.Category);
             Assert.AreEqual(expected.DateOfCreation, actual.DateOfCreation);
             Assert.AreEqual(expected.DateOfLastEdit, actual.DateOfLastEdit);
-        }
-
-        
+        }        
     }
 }

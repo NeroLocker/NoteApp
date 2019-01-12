@@ -85,11 +85,21 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.CategoryComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
             this.CategoryComboBox.FormattingEnabled = true;
+            this.CategoryComboBox.Items.AddRange(new object[] {
+            "Work",
+            "Home",
+            "HealthAndSport",
+            "People",
+            "Documents",
+            "Finance",
+            "Other",
+            "All"});
             this.CategoryComboBox.Location = new System.Drawing.Point(114, 2);
             this.CategoryComboBox.Margin = new System.Windows.Forms.Padding(5);
             this.CategoryComboBox.Name = "CategoryComboBox";
             this.CategoryComboBox.Size = new System.Drawing.Size(195, 24);
             this.CategoryComboBox.TabIndex = 1;
+            this.CategoryComboBox.SelectedIndexChanged += new System.EventHandler(this.CategoryComboBox_SelectedIndexChanged);
             // 
             // NotesListBox
             // 
