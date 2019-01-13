@@ -18,59 +18,126 @@ namespace NoteAppUI
         /// Хранит экземпляр текущего проекта
         /// </summary>
         private Project _currentProject;
-
-        /// <summary>
-        /// Хранит номер текущей заметки
-        /// </summary>
-        private int _noteId;
-
-        public int NoteId
-        {
-            get { return _noteId; }
-            set { _noteId = value; }
-        }
-
+        
         public Project CurrentProject
         {
             get { return _currentProject; }
             set { _currentProject = value; }
         }
 
+        /// <summary>
+        /// Хранит список отфильтрованный по категории
+        /// </summary>
+        public List<Note> FilteredList { get; set; }
+
+        /// <summary>
+        /// Хранит index текущей заметки
+        /// </summary>
+        public int NoteIndex { get; set; }
+
+        /// <summary>
+        /// Флаг первого изменения индекса списка заметок
+        /// </summary>
+        private bool _flag = false;
+
         public MainForm()
         {
             InitializeComponent();
+
+            // Задаем клавишу быстрого доступа для удаления
+            MyRemoveNoteToolStripMenuItem.ShortcutKeys = Keys.Delete;
             
             CurrentProject = ProjectManager.LoadFromFile();
 
+            // Если нет заметок - ничего не делаем
             try
             {
                 CurrentProject.SortNotesCollection();
             }
-            catch (NullReferenceException)
-            {
-                
+            catch (InvalidOperationException)
+            {                
             }
-            
+
             this.NotesListBox.DataSource = CurrentProject.NotesCollection;
             this.NotesListBox.DisplayMember = "Name";
-            
-            // Чистим поля
-            ClearFields();
         }
 
         /// <summary>
-        /// Обновляет данные ListBox заметок
+        /// Обновляет данные списка заметок
         /// </summary>
         private void UpdateNotesList()
         {
+            // Стираем отфильтрованный список
+            FilteredList = null;
+
+            // Сохраняемся всякий раз, когда обновляем данные
+            ProjectManager.SaveToFile(CurrentProject);
+
             // Перезагружаем проект
             CurrentProject = ProjectManager.LoadFromFile();
-            CurrentProject.SortNotesCollection();
 
+            // Если нет заметок - ничего не делаем
+            try
+            {
+                CurrentProject.SortNotesCollection();
+            }
+            catch (InvalidOperationException)
+            {
+            }
+            
             // Обновляем данные коллекции
             NotesListBox.DataSource = null;
             NotesListBox.DataSource = CurrentProject.NotesCollection;
             NotesListBox.DisplayMember = "Name";
+
+            // Снимаем выделение
+            //if (CurrentProject.NotesCollection.Count != 0)
+            //{
+            //    NotesListBox.SelectedIndex = -1;                
+            //}
+        }
+
+        /// <summary>
+        /// Обновляет данные списка заметок по конкретной конкретной категории
+        /// </summary>
+        private void UpdateNotesList(NoteCategory category)
+        {
+            // Сохраняемся всякий раз, когда обновляем данные
+            ProjectManager.SaveToFile(CurrentProject);
+
+            // Перезагружаем проект
+            CurrentProject = ProjectManager.LoadFromFile();
+
+            // Если нет заметок - ничего не делаем
+            try
+            {
+                CurrentProject.SortNotesCollection();
+            }
+            catch (InvalidOperationException)
+            {
+
+            }
+
+            // Обновляем данные коллекции
+            NotesListBox.DataSource = null;
+
+            // Если пришёл пустой список - ничего не делаем
+            try
+            {
+                FilteredList = CurrentProject.SortNotesCollection(category);
+                NotesListBox.DataSource = FilteredList;
+            }
+            catch (InvalidOperationException)
+            {
+            }
+            
+            NotesListBox.DisplayMember = "Name";
+
+            //// Снимаем выделение
+            //if (NotesListBox.Items.Count != 0)
+            //{
+            //    NotesListBox.SelectedIndex = -1;
+            //}
         }
 
         /// <summary>
@@ -83,6 +150,50 @@ namespace NoteAppUI
             DateOfCreationTextBox.Text = "";
             DateOfLastEditTextBox.Text = "";
             ContentTextBox.Text = "";
+        }
+
+        public void SetAllFieldsOfCurrentNote()
+        {
+            if (FilteredList == null)
+            {
+                // Меняем название заметки
+                NoteNameLabel.Text = CurrentProject.NotesCollection[NoteIndex].Name;
+
+                // Особый случай с категориями
+                if (CurrentProject.NotesCollection[NoteIndex].Category == NoteCategory.HealthAndSport)
+                {
+                    CategoryLabel.Text = "Health and Sport";
+                }
+                else
+                {
+                    CategoryLabel.Text = CurrentProject.NotesCollection[NoteIndex].Category.ToString();
+                }
+
+                // Меняем все остальные поля
+                DateOfCreationTextBox.Text = CurrentProject.NotesCollection[NoteIndex].DateOfCreation.ToString();
+                DateOfLastEditTextBox.Text = CurrentProject.NotesCollection[NoteIndex].DateOfLastEdit.ToString();
+                ContentTextBox.Text = CurrentProject.NotesCollection[NoteIndex].Content;
+            }
+            else
+            {
+                // Меняем название заметки
+                NoteNameLabel.Text = FilteredList[NoteIndex].Name;
+
+                // Особый случай с категориями
+                if (FilteredList[NoteIndex].Category == NoteCategory.HealthAndSport)
+                {
+                    CategoryLabel.Text = "Health and Sport";
+                }
+                else
+                {
+                    CategoryLabel.Text = FilteredList[NoteIndex].Category.ToString();
+                }
+
+                // Меняем все остальные поля
+                DateOfCreationTextBox.Text = FilteredList[NoteIndex].DateOfCreation.ToString();
+                DateOfLastEditTextBox.Text = FilteredList[NoteIndex].DateOfLastEdit.ToString();
+                ContentTextBox.Text = FilteredList[NoteIndex].Content;
+            }           
         }
 
         // Всё что относится к меню
@@ -103,8 +214,7 @@ namespace NoteAppUI
 
                 if (addEditNoteForm.ShowDialog() == DialogResult.OK)
                 {                    
-                    CurrentProject.NotesCollection.Add(addEditNoteForm.CurrentNote);
-                    ProjectManager.SaveToFile(CurrentProject);
+                    CurrentProject.NotesCollection.Add(addEditNoteForm.CurrentNote);                    
                     UpdateNotesList();
                 }
             }
@@ -126,18 +236,17 @@ namespace NoteAppUI
             if (NotesListBox.SelectedIndex != -1)
             {
                 AddEditNoteForm addEditNoteForm = new AddEditNoteForm();
-                addEditNoteForm.EditNote(CurrentProject.NotesCollection[NoteId]);
+                addEditNoteForm.EditNote(CurrentProject.NotesCollection[NoteIndex]);
 
-                //AddEditNoteForm addEditNoteForm = new AddEditNoteForm(CurrentProject.NotesCollection[NoteId]);
                 if (addEditNoteForm.ShowDialog() == DialogResult.OK)
                 {
-                    CurrentProject.NotesCollection[NoteId] = addEditNoteForm.CurrentNote;
-                    ProjectManager.SaveToFile(CurrentProject);
+                    CurrentProject.NotesCollection[NoteIndex] = addEditNoteForm.CurrentNote;                    
                     UpdateNotesList();
                 }
             }
             else
             {
+                // Подсвечиваем ListBox заметок
                 NotesListBox.BackColor = Color.MistyRose;                
             }
         }
@@ -185,10 +294,10 @@ namespace NoteAppUI
             {
                 DialogResult result = MessageBox.Show("Do you want to remove note?", "NoteApp", MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question);
+
                 if (result == DialogResult.Yes)
                 {
-                    CurrentProject.NotesCollection.RemoveAt(NoteId);
-                    ProjectManager.SaveToFile(CurrentProject);
+                    CurrentProject.NotesCollection.Remove(CurrentProject.NotesCollection[NoteIndex]);                    
                     UpdateNotesList();
 
                     this.DialogResult = DialogResult.Cancel;
@@ -201,6 +310,7 @@ namespace NoteAppUI
             }
             else
             {
+                // Подсвечиваем ListBox заметок
                 NotesListBox.BackColor = Color.MistyRose;
             }
         }
@@ -211,30 +321,13 @@ namespace NoteAppUI
         # region Buttons
 
         /// <summary>
-        /// Событие при нажатии кнопки NewNote
+        /// Событие при нажатии кнопки AddNote
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void AddNoteButton_Click(object sender, EventArgs e)
         {
-            AddEditNoteForm addEditNoteForm = new AddEditNoteForm();
-            addEditNoteForm.AddNote();
-
-            // Можно добавить только до 200 заметок
-            if (CurrentProject.NotesCollection.Count < 200)
-            {
-                if (addEditNoteForm.ShowDialog() == DialogResult.OK)
-                {
-                    CurrentProject.NotesCollection.Add(addEditNoteForm.CurrentNote);
-                    ProjectManager.SaveToFile(CurrentProject);
-                    UpdateNotesList();
-                }
-            }
-            else
-            {
-                // Подсвечиваем ListBox заметок
-                NotesListBox.BackColor = Color.MistyRose;                
-            }
+            MyAddNoteToolStripMenuItem_Click(sender, e);
         }
 
         /// <summary>
@@ -244,24 +337,7 @@ namespace NoteAppUI
         /// <param name="e"></param>
         private void EditNoteButton_Click(object sender, EventArgs e)
         {
-            // Должна быть выбрана заметка
-            if (NotesListBox.SelectedIndex != -1)
-            {
-                //AddEditNoteForm addEditNoteForm = new AddEditNoteForm(CurrentProject.NotesCollection[NoteId]);
-                AddEditNoteForm addEditNoteForm = new AddEditNoteForm();
-                addEditNoteForm.EditNote(CurrentProject.NotesCollection[NoteId]);
-
-                if (addEditNoteForm.ShowDialog() == DialogResult.OK)
-                {
-                    CurrentProject.NotesCollection[NoteId] = addEditNoteForm.CurrentNote;
-                    ProjectManager.SaveToFile(CurrentProject);
-                    UpdateNotesList();
-                }
-            }
-            else
-            {
-                NotesListBox.BackColor = Color.MistyRose;
-            }
+            MyEditNoteToolStripMenuItem_Click(sender, e);
         }
 
         /// <summary>
@@ -270,32 +346,8 @@ namespace NoteAppUI
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void RemoveNoteButton_Click(object sender, EventArgs e)
-        {
-            // Должна быть выбрана заметка
-            if (NotesListBox.SelectedIndex != -1)
-            {
-                DialogResult result = MessageBox.Show("Do you want to remove note?", "NoteApp", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-                if (result == DialogResult.Yes)
-                {
-                    // Удаляем заметку по id
-                    CurrentProject.NotesCollection.RemoveAt(NoteId);
-                    ProjectManager.SaveToFile(CurrentProject);
-                    UpdateNotesList();
-
-                    this.DialogResult = DialogResult.Cancel;
-                }
-
-                if (result == DialogResult.No)
-                {
-                    // Просто закрываем диалог
-                    this.DialogResult = DialogResult.Cancel;
-                }
-            }
-            else
-            {
-                NotesListBox.BackColor = Color.MistyRose;
-            }            
+        {            
+            MyRemoveNoteToolStripMenuItem_Click(sender, e);
         }
 
         #endregion
@@ -306,32 +358,44 @@ namespace NoteAppUI
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void NotesListBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            NoteId = NotesListBox.SelectedIndex;
+        {           
+            // Проверка что программа открыта в первый раз
+            if (_flag == false)
+            {
+                int indexOfLastNote = 0;
+
+                // Проверка что записка есть
+                if (CurrentProject.CurrentNote != null)
+                {
+                    // Поиск индекса последней открытой заметки
+                    foreach (Note element in CurrentProject.NotesCollection)
+                    {
+                        if (element.DateOfLastEdit == CurrentProject.CurrentNote.DateOfLastEdit)
+                        {
+                            indexOfLastNote = CurrentProject.NotesCollection.IndexOf(element);
+                        }
+                    }
+                }
+
+                // Выделяем последнюю открытую заметку
+                NotesListBox.SelectedIndex = indexOfLastNote;
+                _flag = true;
+            }
+
+            // Храним индекс текущей выбранной заметки
+            NoteIndex = NotesListBox.SelectedIndex;
 
             // Возвращаем стандартный цвет
             NotesListBox.BackColor = Color.White;
 
-            if (NoteId != -1)
+            // Должна быть выбрана заметка
+            if (NotesListBox.SelectedIndex != -1)
             {
-                NoteNameLabel.Text = CurrentProject.NotesCollection[NoteId].Name;
-
-                // Особый случай с категориями
-                if (CurrentProject.NotesCollection[NoteId].Category == NoteCategory.HealthAndSport)
-                {
-                    CategoryLabel.Text = "Health and Sport";
-                }
-                else
-                {
-                    CategoryLabel.Text = CurrentProject.NotesCollection[NoteId].Category.ToString();
-                }
-                
-                DateOfCreationTextBox.Text = CurrentProject.NotesCollection[NoteId].DateOfCreation.ToString();
-                DateOfLastEditTextBox.Text = CurrentProject.NotesCollection[NoteId].DateOfLastEdit.ToString();
-                ContentTextBox.Text = CurrentProject.NotesCollection[NoteId].Content;
+                SetAllFieldsOfCurrentNote();                
             }
             else
             {
+                // Если заметка не выделена
                 ClearFields();
             }
         }
@@ -349,6 +413,16 @@ namespace NoteAppUI
                 // Для сохранения список заметок должен быть не пустым
                 if (CurrentProject.NotesCollection.Count != 0)
                 {
+                    if (NotesListBox.SelectedIndex != -1)
+                    {
+                        CurrentProject.CurrentNote = CurrentProject.NotesCollection[NoteIndex];
+                    }
+
+                    if (NotesListBox.SelectedIndex == -1)
+                    {
+                        CurrentProject.CurrentNote = null;
+                    }
+                    
                     ProjectManager.SaveToFile(CurrentProject);
                 }
             }
@@ -369,10 +443,41 @@ namespace NoteAppUI
             NotesListBox.BackColor = Color.White;
         }
 
-
+        /// <summary>
+        /// Событие при изменении индекса категории
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CategoryComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            // Сортируем список в зависимости от категории
+            switch (CategoryComboBox.SelectedIndex)
+            {
+                case 0:
+                    UpdateNotesList(NoteCategory.Work);
+                    break;
+                case 1:
+                    UpdateNotesList(NoteCategory.Home);
+                    break;
+                case 2:
+                    UpdateNotesList(NoteCategory.HealthAndSport);
+                    break;
+                case 3:
+                    UpdateNotesList(NoteCategory.People);
+                    break;
+                case 4:
+                    UpdateNotesList(NoteCategory.Documents);
+                    break;
+                case 5:
+                    UpdateNotesList(NoteCategory.Finance);
+                    break;
+                case 6:
+                    UpdateNotesList(NoteCategory.Other);
+                    break;
+                case 7:
+                    UpdateNotesList();
+                    break;
+            }
         }
     }
 }
