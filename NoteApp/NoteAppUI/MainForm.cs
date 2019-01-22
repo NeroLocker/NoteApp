@@ -44,9 +44,10 @@ namespace NoteAppUI
         {
             InitializeComponent();
 
-            // Задаем клавишу быстрого доступа для удаления
+            // Задаем клавишу быстрого доступа для удаления заметки
             MyRemoveNoteToolStripMenuItem.ShortcutKeys = Keys.Delete;
-            
+
+            // Загружаем сохранённый проект
             CurrentProject = ProjectManager.LoadFromFile();
 
             // Если нет заметок - ничего не делаем
@@ -90,11 +91,7 @@ namespace NoteAppUI
             NotesListBox.DataSource = CurrentProject.NotesCollection;
             NotesListBox.DisplayMember = "Name";
 
-            // Снимаем выделение
-            //if (CurrentProject.NotesCollection.Count != 0)
-            //{
-            //    NotesListBox.SelectedIndex = -1;                
-            //}
+            CategoryComboBox.SelectedIndex = 7;
         }
 
         /// <summary>
@@ -132,12 +129,6 @@ namespace NoteAppUI
             }
             
             NotesListBox.DisplayMember = "Name";
-
-            //// Снимаем выделение
-            //if (NotesListBox.Items.Count != 0)
-            //{
-            //    NotesListBox.SelectedIndex = -1;
-            //}
         }
 
         /// <summary>

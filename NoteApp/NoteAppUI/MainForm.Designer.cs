@@ -254,6 +254,7 @@
             this.ContentTextBox.Multiline = true;
             this.ContentTextBox.Name = "ContentTextBox";
             this.ContentTextBox.ReadOnly = true;
+            this.ContentTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.ContentTextBox.Size = new System.Drawing.Size(613, 383);
             this.ContentTextBox.TabIndex = 5;
             // 

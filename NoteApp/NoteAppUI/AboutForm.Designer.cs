@@ -158,9 +158,9 @@
             this.FooterLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.FooterLabel.Location = new System.Drawing.Point(29, 20);
             this.FooterLabel.Name = "FooterLabel";
-            this.FooterLabel.Size = new System.Drawing.Size(156, 15);
+            this.FooterLabel.Size = new System.Drawing.Size(188, 15);
             this.FooterLabel.TabIndex = 6;
-            this.FooterLabel.Text = "2018 Alexander Chudnov ©";
+            this.FooterLabel.Text = "2018-2019 Alexander Chudnov ©";
             // 
             // AboutForm
             // 
